@@ -207,19 +207,96 @@
         v-model.trim.lazy="formValues.email"
       />
     </div>
-    <!-- <div>
+    <div>
       <button>Submit</button>
-    </div> -->
+    </div>
   </form>
+
+  <span
+    >***************************** Computed
+    **********************************</span
+  >
+  <div>
+    <div>
+      <h2>Full Name: {{ firstName }} {{ lastName }}</h2>
+      <h2>Computed fullName : {{ fullName }}</h2>
+      <button @click="changeFullName">Change Fullname</button>
+    </div>
+    <button @click="items.push({ id: 4, title: 'Keyboard', price: 50 })">
+      Add item
+    </button>
+    <h2>Computed total: {{ total }} (recommend)</h2>
+    <h2>Method total: {{ getTotal() }} (should not be used)</h2>
+  </div>
+  <template v-for="item in items" :key="item.id">
+    <h2 v-if="item.price > 100">{{ item.title }} - {{ item.price }}</h2>
+  </template>
+  <h2 v-for="item in expensiveItems" :key="item.id">
+    {{ item.title }} - {{ item.price }}
+  </h2>
+
+  <span
+    >***************************** Watchers
+    **********************************</span
+  >
+  <div>
+    <h2>Volume Tracker (0-20)</h2>
+    <h2>Current volume: {{ volume }}</h2>
+    <div>
+      <button @click="volume += 2">Increase</button>
+      <button @click="volume -= 2">Decrease</button>
+    </div>
+  </div>
+  <div>
+    <input type="text" v-model="movie" />
+    <input type="text" v-model="movieInfo.title" />
+    <input type="text" v-model="movieInfo.actor" />
+    <div>
+      <button @click="movieList.push('Wonder Woman')">Add Movie</button>
+    </div>
+  </div>
+
+  <span
+    >***************************** Components
+    **********************************</span
+  >
+  <Greet name="Brunce" heroName="Batman" />
+  <Greet name="Clark" heroName="Superman" />
+  <Greet name="Diana" heroName="Wonder Woman" />
+  <Greet :name="name" :heroName="channel" />
+  <Article
+    id="my-article"
+    title="Article Title"
+    :likes="50"
+    :isPublished="true"
+  />
+
+  <ComponentC />
+
+  <div>
+    <button @click="showPopup = true">Show Popup</button>
+    <Popup v-show="showPopup" @close="closePopup" />
+  </div>
 </template>
 
 <script>
 import _ from "lodash";
+import Greet from "./Components/Greet.vue";
+import Article from "./Components/Article.vue";
+import ComponentC from "./Components/ComponentC.vue";
+import Popup from "./Components/Popup.vue";
+
 export default {
   name: "App",
+  components: {
+    Greet,
+    Article,
+    ComponentC,
+    Popup,
+  },
   data() {
     return {
-      name: "Nhan",
+      name: "Zinzo Phan",
       channel: "Learning",
       label: "<b>Label HTML</b>",
       hack: `<a href='#' onclick="alert('You have been hacked!')">Win a prize!</a>`,
@@ -279,6 +356,26 @@ export default {
         yearOfExperience: "",
         email: "",
       },
+      firstName: "Nhan",
+      lastName: "Phan",
+      items: [
+        { id: 1, title: "TV", price: 100 },
+        { id: 2, title: "Phone", price: 200 },
+        { id: 3, title: "Laptop", price: 300 },
+      ],
+      volume: 0,
+      movie: "Test",
+      movieInfo: {
+        title: "",
+        actor: "",
+      },
+      movieList: ["Batman", "Supperman"],
+      showPopup: false,
+    };
+  },
+  provide() {
+    return {
+      username: this.name,
     };
   },
   methods: {
@@ -301,6 +398,69 @@ export default {
     },
     submitForm() {
       console.log("submitForm ", this.formValues);
+    },
+    getTotal() {
+      return this.items.reduce(
+        (total, current) => (total = total + current.price),
+        0
+      );
+    },
+    changeFullName() {
+      this.fullName = "Clark Kent";
+    },
+    closePopup(name) {
+      this.showPopup = false;
+      this.name = name;
+    },
+  },
+  computed: {
+    fullName: {
+      get() {
+        return `${this.firstName} ${this.lastName}`;
+      },
+      set(value) {
+        const names = value.split(" ");
+        this.firstName = names[0];
+        this.lastName = names[1];
+      },
+    },
+    total() {
+      return this.items.reduce(
+        (total, current) => (total = total + current.price),
+        0
+      );
+    },
+    expensiveItems() {
+      return this.items.filter((item) => item.price > 100);
+    },
+  },
+  watch: {
+    volume(newValue, oldValue) {
+      if (newValue > oldValue && newValue === 16) {
+        alert(
+          "listening to a high volume for a long time may damage your hearing"
+        );
+      }
+    },
+    movie: {
+      handler(newValue) {
+        console.log(`Calling API with movie name = ${newValue}`);
+      },
+      immediate: true,
+    },
+    movieInfo: {
+      handler(newValue) {
+        console.log(
+          `Calling API with movie name = ${newValue.title} and actor = ${newValue.actor}`
+        );
+      },
+      deep: true,
+    },
+    movieList: {
+      handler(newValue) {
+        console.log(`Calling API updated list ${newValue}`);
+      },
+      deep: true,
     },
   },
 };
