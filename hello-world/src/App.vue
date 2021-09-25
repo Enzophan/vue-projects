@@ -277,6 +277,54 @@
     <button @click="showPopup = true">Show Popup</button>
     <Popup v-show="showPopup" @close="closePopup" />
   </div>
+
+  <div>
+    <Input v-model="name" />
+  </div>
+  <span
+    >*****************************Slots**********************************</span
+  >
+  <div>
+    <Card></Card>
+    <Card>Card content</Card>
+    <Card><h2>Card content</h2></Card>
+    <Card>
+      <img src="https://picsum.photos/200" />
+    </Card>
+    <span>=========Named Slots========</span>
+    <Card>
+      <template v-slot:header>
+        <h3>Header</h3>
+      </template>
+      <template v-slot:default>
+        <img src="https://picsum.photos/200" />
+      </template>
+      <template v-slot:footer>
+        <h3>Footer</h3>
+        <button>View Details</button>
+      </template>
+    </Card>
+  </div>
+  <span>=========Slots Props========</span>
+  <div>
+    <NameList>
+      <template v-slot:default="slotProps">
+        {{ slotProps.firstname }} {{ slotProps.lastname }}
+      </template>
+    </NameList>
+
+    <NameList>
+      <template v-slot:default="slotProps">
+        {{ slotProps.lastname }} {{ slotProps.firstname }}
+      </template>
+    </NameList>
+
+    <NameList>
+      <template v-slot:default="slotProps">
+        {{ slotProps.firstname }}
+      </template>
+    </NameList>
+  </div>
 </template>
 
 <script>
@@ -285,6 +333,9 @@ import Greet from "./Components/Greet.vue";
 import Article from "./Components/Article.vue";
 import ComponentC from "./Components/ComponentC.vue";
 import Popup from "./Components/Popup.vue";
+import Input from "./Components/Input.vue";
+import Card from "./Components/Card.vue";
+import NameList from "./Components/NameList.vue";
 
 export default {
   name: "App",
@@ -293,6 +344,9 @@ export default {
     Article,
     ComponentC,
     Popup,
+    Input,
+    Card,
+    NameList,
   },
   data() {
     return {
@@ -411,6 +465,7 @@ export default {
     closePopup(name) {
       this.showPopup = false;
       this.name = name;
+      console.log(" closePopup ", name);
     },
   },
   computed: {
