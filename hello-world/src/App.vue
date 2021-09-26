@@ -325,6 +325,34 @@
       </template>
     </NameList>
   </div>
+  <span>=========Component Styles========</span>
+  <div>
+    <h4>App component text</h4>
+    <ChildStyles>
+      <h4>ChildStyles component text</h4>
+    </ChildStyles>
+  </div>
+  <span>=========Dynamic Components========</span>
+  <div>
+    <button @click="activeTab = 'TabA'">Tab A</button>
+    <button @click="activeTab = 'TabB'">Tab B</button>
+    <button @click="activeTab = 'TabC'">Tab C</button>
+
+    <keep-alive>
+      <component :is="activeTab" />
+    </keep-alive>
+    <!-- <TabA v-if="activeTab === 'TabA'" />
+    <TabB v-if="activeTab === 'TabB'" />
+    <TabC v-if="activeTab === 'TabC'" /> -->
+  </div>
+
+  <span>=========Teleport Component========</span>
+
+  <div>
+    <teleport to="#portal-root">
+      <Portal />
+    </teleport>
+  </div>
 </template>
 
 <script>
@@ -336,6 +364,11 @@ import Popup from "./Components/Popup.vue";
 import Input from "./Components/Input.vue";
 import Card from "./Components/Card.vue";
 import NameList from "./Components/NameList.vue";
+import ChildStyles from "./Components/ChildStyles.vue";
+import TabA from "./Components/TabA.vue";
+import TabB from "./Components/TabB.vue";
+import TabC from "./Components/TabC.vue";
+import Portal from "./Components/Portal.vue";
 
 export default {
   name: "App",
@@ -347,6 +380,11 @@ export default {
     Input,
     Card,
     NameList,
+    ChildStyles,
+    TabA,
+    TabB,
+    TabC,
+    Portal,
   },
   data() {
     return {
@@ -425,6 +463,7 @@ export default {
       },
       movieList: ["Batman", "Supperman"],
       showPopup: false,
+      activeTab: "TabA",
     };
   },
   provide() {
@@ -568,5 +607,9 @@ select {
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+h4 {
+  color: orange;
 }
 </style>
