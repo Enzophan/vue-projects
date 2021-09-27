@@ -353,6 +353,33 @@
       <Portal />
     </teleport>
   </div>
+
+  <span>=========HTTP========</span>
+  <div>
+    <PostList />
+    <CreatePost />
+  </div>
+
+  <span>=========Lifecycle Hooks========</span>
+  <div>
+    <Parent />
+  </div>
+
+  <span>=========Template Refs========</span>
+  <div>
+    <TemplateRef />
+  </div>
+
+  <span>=========Reusability with Mixins========</span>
+  <div>
+    <ClickCounter />
+    <HoverCounter />
+  </div>
+
+  <span>=========Replacing data with ref========</span>
+  <div>
+    <Data />
+  </div>
 </template>
 
 <script>
@@ -369,6 +396,13 @@ import TabA from "./Components/TabA.vue";
 import TabB from "./Components/TabB.vue";
 import TabC from "./Components/TabC.vue";
 import Portal from "./Components/Portal.vue";
+import PostList from "./Components/PostList.vue";
+import CreatePost from "./Components/CreatePost.vue";
+import Parent from "./Components/Parent.vue";
+import TemplateRef from "./Components/TemplateRef.vue";
+import ClickCounter from "./Components/ClickCounter.vue";
+import HoverCounter from "./Components/HoverCounter.vue";
+import Data from "./Components/Data.vue";
 
 export default {
   name: "App",
@@ -385,6 +419,13 @@ export default {
     TabB,
     TabC,
     Portal,
+    PostList,
+    CreatePost,
+    Parent,
+    TemplateRef,
+    ClickCounter,
+    HoverCounter,
+    Data,
   },
   data() {
     return {
