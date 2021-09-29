@@ -257,7 +257,7 @@
   </div>
 
   <span
-    >***************************** Components
+    >***************************** Components Props
     **********************************</span
   >
   <Greet name="Brunce" heroName="Batman" />
@@ -274,6 +274,7 @@
   <ComponentC />
 
   <div>
+    <span>Handle event another component</span>
     <button @click="showPopup = true">Show Popup</button>
     <Popup v-show="showPopup" @close="closePopup" />
   </div>
@@ -376,9 +377,52 @@
     <HoverCounter />
   </div>
 
-  <span>=========Replacing data with ref========</span>
+  <h1><span>=========Composition========</span></h1>
+
   <div>
+    <span>=========Replacing data with ref========</span>
     <Data />
+  </div>
+  <div>
+    <span>========Reactivity and toRefs========</span>
+    <DemoOne />
+    <DemoTwo />
+  </div>
+  <div>
+    <span>========Replacing methods========</span>
+    <Methods />
+  </div>
+  <div>
+    <span>========v-model and Composition API========</span>
+    <VModel />
+  </div>
+  <div>
+    <span>========Replacing Computed Properties========</span>
+    <Computed />
+  </div>
+  <div>
+    <span>========Replacing Watchers========</span>
+    <Watch />
+  </div>
+  <div>
+    <span>========Replacing Provide/Inject========</span>
+    <ProvideInject />
+  </div>
+
+  <div>
+    <span>========Replacing Lifecycle Hooks========</span>
+    <LifecycleC />
+  </div>
+
+  <div>
+    <span>========Props and Composition API========</span>
+    <Person />
+  </div>
+
+  <div>
+    <span>=========Reusability with Composition API========</span>
+    <ClickCounterComposition />
+    <HoverCounterComposition />
   </div>
 </template>
 
@@ -403,6 +447,17 @@ import TemplateRef from "./Components/TemplateRef.vue";
 import ClickCounter from "./Components/ClickCounter.vue";
 import HoverCounter from "./Components/HoverCounter.vue";
 import Data from "./Components/Data.vue";
+import DemoOne from "./Components/DemoOne.vue";
+import DemoTwo from "./Components/DemoTwo.vue";
+import Methods from "./Components/Methods.vue";
+import VModel from "./Components/VModel.vue";
+import Computed from "./Components/Computed.vue";
+import Watch from "./Components/Watch.vue";
+import ProvideInject from "./Components/Provider/ProvideInject.vue";
+import LifecycleC from "./Components/LifecycleHooks/LifecycleC.vue";
+import Person from "./Components/Props/Person.vue";
+import ClickCounterComposition from "./Components/Reusability/ClickCounterComposition.vue";
+import HoverCounterComposition from "./Components/Reusability/HoverCounterComposition.vue";
 
 export default {
   name: "App",
@@ -426,6 +481,17 @@ export default {
     ClickCounter,
     HoverCounter,
     Data,
+    DemoOne,
+    DemoTwo,
+    Methods,
+    VModel,
+    Computed,
+    Watch,
+    ProvideInject,
+    LifecycleC,
+    Person,
+    ClickCounterComposition,
+    HoverCounterComposition,
   },
   data() {
     return {
@@ -610,6 +676,12 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+span {
+  font-weight: bold;
+  color: red;
+}
+
 .underline {
   text-decoration: underline;
 }

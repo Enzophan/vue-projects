@@ -14,7 +14,7 @@ export default {
     const c_firstName = ref("Clark");
     c_firstName.value = "Diana";
     const greet = `Hello ${c_firstName.value}`;
-    console.log("c_firstName ", c_firstName);
+    // console.log("c_firstName ", c_firstName);
     return {
       c_firstName,
       greet,
