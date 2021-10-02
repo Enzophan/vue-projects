@@ -14,32 +14,39 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
+
 export default {
   name: "App",
-  methods: {
-    redirect() {
-      this.$router.push({ name: 'Home' })
-    },
-    back() {
-      this.$router.go(-1);
-    },
-    forward() {
-      this.$router.go(1);
-    },
-  },
-  // setup(props, { root }) {
-  //   function redirect() {}
-  //   function back() {
-  //     root.$router.go(-1);
-  //   }
-  //   function forward() {}
-
-  //   return {
-  //     redirect,
-  //     back,
-  //     forward,
-  //   };
+  // methods: {
+  //   redirect() {
+  //     this.$router.push({ name: 'Home' })
+  //   },
+  //   back() {
+  //     this.$router.go(-1);
+  //   },
+  //   forward() {
+  //     this.$router.go(1);
+  //   },
   // },
+  setup() {
+    const router = useRouter();
+    function redirect() {
+      return router.push({ name: "Home" });
+    }
+    function back() {
+      return router.go(-1);
+    }
+    function forward() {
+      return router.go(1);
+    }
+
+    return {
+      redirect,
+      back,
+      forward,
+    };
+  },
 };
 </script>
 
