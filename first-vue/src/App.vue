@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">Go to Home</router-link> |
       <router-link to="/about">Go to About</router-link> |
-      <router-link :to="{ name: 'Jobs' }">Go to Jobs</router-link>
+      <router-link :to="{ name: 'Jobs' }">Go to Jobs</router-link> |
+      <router-link :to="{ name: 'Posts' }">Go to Posts</router-link>
     </div>
 
     <button @click="redirect">Redirect</button>

@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Jobs from '../views/Jobs/Jobs.vue'
 import JobDetails from '../views/Jobs/JobDetails.vue'
+import PostList from '../views/Posts/PostList.vue'
+import PostDetails from '../views/Posts/PostDetails.vue'
 import NotFound from '../views/NotFound.vue'
 
 const routes = [
@@ -10,6 +12,8 @@ const routes = [
     { path: '/about', name: 'About', component: About },
     { path: '/jobs', name: 'Jobs', component: Jobs },
     { path: '/jobs/:id', name: 'JobDetails', component: JobDetails, props: true },
+    { path: '/posts', name: 'Posts', component: PostList },
+    { path: '/posts/:id', name: 'PostDetails', component: PostDetails, props: true },
     //redirect
     { path: '/all-jobs', redirect: '/jobs' },
     //catch all 44
