@@ -6,27 +6,39 @@
 </template>
 
 <script>
-import PostService from "../../services/PostService.js";
+// import PostService from "../../services/PostService.js";
 import PostCard from "./PostCard.vue";
+// import { mapGetters } from "vuex";
 
 export default {
   name: "PostList",
   components: {
     PostCard,
   },
-  data() {
-    return {
-      posts: [],
-    };
+  // data() {
+  //   return {
+  //     posts: [],
+  //   };
+  // },
+  // created() {
+  //   PostService.getPosts()
+  //     .then((response) => {
+  //       this.posts = response.data;
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error: ", error);
+  //     });
+  // },
+  computed: {
+    // Way 1
+    // ...mapGetters(["posts"]),
+    // Way 2
+    posts() {
+      return this.$store.getters.posts;
+    },
   },
-  created() {
-    PostService.getPosts()
-      .then((response) => {
-        this.posts = response.data;
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
+  mounted() {
+    this.$store.dispatch("getPosts");
   },
 };
 </script>
