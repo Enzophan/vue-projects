@@ -1,11 +1,12 @@
 import { createStore } from "vuex";
-import User from '@/store/modules/user'
+import User from '@/store/modules/user';
+import Random from '@/store/modules/random';
 
 export default createStore({
   state: {},
   mutations: {},
   actions: {},
-  modules: { user: User },
+  modules: { user: User, random: Random },
 });
 
 

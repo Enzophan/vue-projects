@@ -14,10 +14,6 @@ class User extends VuexModule {
         return this.name.toUpperCase()
     }
 
-    // @Action
-    // public updateName(newName: string): void {
-    //     this.context.commit('setName', newName)
-    // }
     @Action
     public updateName(newName: string): void {
         this.context.commit("changeName", newName)
