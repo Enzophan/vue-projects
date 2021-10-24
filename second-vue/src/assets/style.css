@@ -1,0 +1,180 @@
+:root {
+    --primary-clr: #04AA6D;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* text-align: center; */
+    color: #2c3e50;
+  }
+  
+
+/* #nav {
+    padding: 30px;
+} */
+
+/* #nav a {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+    color: #42b983;
+} */
+
+.logo {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+#nav li {
+    float: left;
+}
+
+#nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+#nav li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.router-link-exact-active {
+    background-color: var(--primary-clr);
+}
+
+.btn {
+    border: none;
+    outline: none;
+    padding: 0.5em 0.7em;
+    margin: 0.5em auto;
+    margin-right: 0.5em;
+    border-radius: 3px;
+    color: white;
+    background-color: var(--primary-clr);
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn.btn-delete {
+    color: rgb(206, 10, 10);
+    background-color: rgb(241, 187, 187);
+}
+
+.btn i {
+    margin-right: .5em;
+}
+
+.container {
+    padding: 0 10vw;
+}
+
+.main {
+    margin: 1.5em 0;
+}
+
+.msg {
+    color: gray;
+    text-align: center;
+}
+
+.boards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5em;
+}
+
+.board {
+    padding: 1em;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .3);
+    border-top: 3px solid red;
+    border-radius: 4px;
+}
+
+.board .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .5em;
+}
+
+.board .head .title {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.fa-trash {
+    color: rgb(206, 10, 10);
+    margin-left: .74em;
+    cursor: pointer;
+}
+
+.item {
+    padding: 1em;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .3);
+    border-radius: 4px;
+    margin-top: 1em;
+}
+
+.item .head .priority {
+    font-weight: bold;
+    color: gray;
+}
+
+.badge {
+    padding: .5em;
+    background-color: red;
+    border-radius: 3px;
+    margin-left: 0.5em;
+    color: #fff;
+    text-transform: uppercase;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    font-size: .8em;
+    letter-spacing: 1px;
+}
+
+.fa-sort {
+    cursor: move;
+}
+
+.item .title {
+    margin: 1em;
+    font-weight: bold;
+    font-size:  1.2em;
+    color: #333;
+}
+
+.text-right {
+    text-align: right;
+}
+
+@media screen and (max-width: 1000px) {
+    .container {
+        padding: 0 6vw;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .container {
+        padding: 0 3vw;
+    }
+}
