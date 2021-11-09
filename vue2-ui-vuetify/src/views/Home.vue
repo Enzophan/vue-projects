@@ -32,11 +32,13 @@
         </v-btn>
       </v-col>
     </v-row>
+    <DataTables />
   </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
+import DataTables from "@/components/DataTables.vue";
 
 export default {
   name: "Home",
@@ -48,7 +50,7 @@ export default {
       { text: "Conversions", icon: "mdi-flag" },
     ],
   }),
-  components: {},
+  components: { DataTables },
   methods: {
     async openSnackbar() {
       // this.snackbar = true;
