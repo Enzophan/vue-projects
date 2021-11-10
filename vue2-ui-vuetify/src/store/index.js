@@ -30,6 +30,10 @@ export default new Vuex.Store({
     MARK_VIDEO_PLAYED(state, itemId) {
       let playedVideos = state.user.played_video_ids.concat(itemId);
       state.user.played_video_ids = playedVideos;
+    },
+    DELETE(state, itemId) {
+      let desserts = state.desserts.filter(v => v.id != itemId)
+      state.desserts = desserts;
     }
   },
   actions: {
@@ -42,6 +46,9 @@ export default new Vuex.Store({
     markVideoPlayed({ commit }, itemId) {
       commit('MARK_VIDEO_PLAYED', itemId);
     },
+    deleteItem({ commit }, itemId) {
+      commit('DELETE', itemId);
+    }
   },
   modules: {
   }
