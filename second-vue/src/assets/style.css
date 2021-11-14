@@ -73,11 +73,24 @@
     background-color: var(--primary-clr);
     text-transform: uppercase;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .btn.btn-delete {
     color: rgb(206, 10, 10);
     background-color: rgb(241, 187, 187);
+}
+
+.btn.add {
+    background-color: var(--primary-clr);
+    color: #fff;
+    padding: .75em 1em;
+}
+
+.btn.cancel {
+    background-color: rgb(255, 169, 40);
+    color: #fff;
+    padding: .75em 1em;
 }
 
 .btn i {
@@ -165,6 +178,54 @@
 
 .text-right {
     text-align: right;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal .content {
+    padding: 1.5em;
+    background-color: #fff;
+    width: 90%;
+    max-width: 350px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.content .title {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.form {
+    margin: 1em 0;
+}
+
+.form label, .form input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input {
+    padding: .5em;
+    border-radius: 3px;
+    margin-bottom: .75em;
+}
+
+input[type="color"] {
+    padding: .1em .5em;
+    /* border: 1px solid rgb(206, 10, 10); */
 }
 
 @media screen and (max-width: 1000px) {

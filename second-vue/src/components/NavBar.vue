@@ -11,14 +11,17 @@
       <li><router-link to="/board">Board</router-link></li>
       <li><router-link to="/about">About</router-link></li> -->
       <li style="float: right">
-        <button class="btn"><i class="fas fa-plus"></i> Add Board</button>
+        <AddBoardBtn />
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import AddBoardBtn from "@/components/AddBoardBtn.vue";
+
 export default {
+  components: { AddBoardBtn },
   data() {
     return {
       links: [

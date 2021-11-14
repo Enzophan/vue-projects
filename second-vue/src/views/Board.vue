@@ -33,11 +33,24 @@
 </template>
 
 <script>
+//Learning: https://www.youtube.com/playlist?list=PLBh9z20x5LUoALR6IdyNlJSiBP6BIEEFA
+
 import Board from "@/components/Board.vue";
+import EventBus from "@/utils/eventBus.js";
 
 export default {
   components: {
     Board,
+  },
+  mounted() {
+    EventBus.$on("addBoard", (data) => {
+      console.log("addBoard ", data);
+      this.boards.push({
+        title: data.inputA,
+        color: data.inputB || "#000",
+        items: [],
+      });
+    });
   },
   data() {
     return {
@@ -64,7 +77,7 @@ export default {
           title: "Test board 2",
           color: "blue",
           items: [
-              {
+            {
               title: "Item 01",
               priority: "high",
             },
