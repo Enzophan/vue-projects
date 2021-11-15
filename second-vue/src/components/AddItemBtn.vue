@@ -1,14 +1,15 @@
 <template>
   <span>
     <button @click.prevent="handleClickAddBoard" class="btn">
-      <i class="fas fa-plus"></i> Add Board
+      <i class="fas fa-plus"></i> add item
     </button>
+
     <Modal
       v-if="showModal"
-      title="Add Board"
-      labelA="Board Title"
-      labelB="Board Color"
-      inputBtype="color"
+      title="Add Item"
+      labelA="Enter Item"
+      labelB="Enter Priority"
+      inputBtype="text"
       @close="handleClickAddBoard"
       @submit="handleSubmit"
     />
@@ -23,6 +24,7 @@ export default {
   components: {
     Modal,
   },
+  props: ["boardId"],
   data() {
     return {
       showModal: false,
@@ -33,7 +35,10 @@ export default {
       this.showModal = !this.showModal;
     },
     handleSubmit(data) {
-      EventBus.$emit("addBoard", data);
+      EventBus.$emit("addItem", {
+        ...data,
+        boardIndex: this.boardId,
+      });
       this.showModal = false;
     },
   },

@@ -228,6 +228,21 @@ input[type="color"] {
     /* border: 1px solid rgb(206, 10, 10); */
 }
 
+
+.flip-list-move {
+    transition: transform 0.5s;
+}
+
+.no-move {
+    transition: transform 0s;
+}
+
+.ghost {
+    opacity: 0.5;
+    background: #c8ebfb;
+}
+
+
 @media screen and (max-width: 1000px) {
     .container {
         padding: 0 6vw;

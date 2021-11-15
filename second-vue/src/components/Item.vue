@@ -7,18 +7,20 @@
           item.priority
         }}</span>
       </span>
-      <i class="fas fa-sort" :style="{ color: clr }"></i>
+      <i class="fas fa-sort handle" :style="{ color: clr }"></i>
     </div>
     <p class="title">{{ item.title }}</p>
     <p class="text-right">
-      <button class="btn btn-delete">Delete</button>
+      <button class="btn btn-delete" @click="handleDeleteItem">Delete</button>
     </p>
   </div>
 </template>
 
 <script>
+import EventBus from "@/utils/eventBus.js";
+
 export default {
-  props: ["item", "clr"],
+  props: ["item", "clr", "boardId", "itemId"],
   computed: {
     priorityClr() {
       if (this.item.priority === "low") {
@@ -28,6 +30,14 @@ export default {
       } else {
         return "#ff0000";
       }
+    },
+  },
+  methods: {
+    handleDeleteItem() {
+      EventBus.$emit("deleteItem", {
+        boardId: this.boardId,
+        itemId: this.itemId,
+      });
     },
   },
 };

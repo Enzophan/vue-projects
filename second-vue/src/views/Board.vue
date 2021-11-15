@@ -27,7 +27,12 @@
         </div>
       </div> -->
 
-      <Board v-for="(board, index) in boards" :board="board" :key="index" />
+      <Board
+        v-for="(board, index) in boards"
+        :board="board"
+        :id="index"
+        :key="index"
+      />
     </div>
   </div>
 </template>
@@ -44,12 +49,29 @@ export default {
   },
   mounted() {
     EventBus.$on("addBoard", (data) => {
-      console.log("addBoard ", data);
       this.boards.push({
         title: data.inputA,
         color: data.inputB || "#000",
         items: [],
       });
+    });
+
+    EventBus.$on("addItem", (data) => {
+      // console.log("addItem ", data);
+      this.boards[data.boardIndex].items.push({
+        title: data.inputA,
+        priority: data.inputB || "low",
+      });
+    });
+
+    EventBus.$on("deleteBoard", (boardIndex) => {
+      // console.log("deleteBoard", boardIndex);
+      this.boards.splice(boardIndex, 1);
+    });
+
+    EventBus.$on("deleteItem", (data) => {
+      // console.log("deleteItem", data);
+      this.boards[data.boardId].items.splice(data.itemId, 1);
     });
   },
   data() {
