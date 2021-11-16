@@ -17,6 +17,7 @@
           v-bind="dragOptions"
           @start="drag = true"
           @end="drag = false"
+          @sort="handleSort"
         >
           <transition-group
             type="transition"
@@ -77,6 +78,10 @@ export default {
   methods: {
     handleDeleteBoard() {
       EventBus.$emit("deleteBoard", this.id);
+    },
+    handleSort() {
+      console.log("handleSort ");
+      EventBus.$emit("boardSorted");
     },
   },
 };

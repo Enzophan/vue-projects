@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Facts from '../views/Facts'
 import FactsDetails from '../views/Facts/FactsDetails.vue'
 import Board from '../views/Board.vue'
+import Error from '@/views/Error.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,11 @@ const routes = [
     name: 'Board',
     component: Board
   },
+  {
+    path: '*',
+    name: "Error",
+    component: Error
+  }
 ]
 
 const router = new VueRouter({

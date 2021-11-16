@@ -1,8 +1,10 @@
 <template>
   <div>
     <ul>
-      <li class="logo"><a href="/">VUE_LOGO</a></li>
-      <li v-for="(link, index) in links" :key="index">
+      <li class="logo">
+        <router-link to="/">VUE_LOGO</router-link>
+      </li>
+      <li class="menu" v-for="(link, index) in links" :key="index">
         <router-link :to="link.path">{{ link.name | toUpperCase }}</router-link>
       </li>
 

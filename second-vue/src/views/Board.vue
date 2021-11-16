@@ -48,6 +48,11 @@ export default {
     Board,
   },
   mounted() {
+    let temp = localStorage.getItem("boards");
+    if (temp) {
+      this.boards = JSON.parse(temp);
+    }
+
     EventBus.$on("addBoard", (data) => {
       this.boards.push({
         title: data.inputA,
@@ -62,6 +67,7 @@ export default {
         title: data.inputA,
         priority: data.inputB || "low",
       });
+      localStorage.setItem("boards", JSON.stringify(this.boards));
     });
 
     EventBus.$on("deleteBoard", (boardIndex) => {
@@ -72,54 +78,66 @@ export default {
     EventBus.$on("deleteItem", (data) => {
       // console.log("deleteItem", data);
       this.boards[data.boardId].items.splice(data.itemId, 1);
+      localStorage.setItem("boards", JSON.stringify(this.boards));
+    });
+
+    EventBus.$on("boardSorted", () => {
+      console.log("boardSorted", this.boards);
+      localStorage.setItem("boards", JSON.stringify(this.boards));
     });
   },
   data() {
     return {
-      boards: [
-        {
-          title: "Test board 1",
-          color: "red",
-          items: [
-            {
-              title: "Item 01",
-              priority: "high",
-            },
-            {
-              title: "Item 02",
-              priority: "low",
-            },
-            {
-              title: "Item 03",
-              priority: "medium",
-            },
-          ],
-        },
-        {
-          title: "Test board 2",
-          color: "blue",
-          items: [
-            {
-              title: "Item 01",
-              priority: "high",
-            },
-            {
-              title: "Item 02",
-              priority: "low",
-            },
-            {
-              title: "Item 03",
-              priority: "medium",
-            },
-          ],
-        },
-        {
-          title: "Test board 3",
-          color: "green",
-          items: [],
-        },
-      ],
+      boards: [],
+      // boards: [
+      //   {
+      //     title: "Test board 1",
+      //     color: "red",
+      //     items: [
+      //       {
+      //         title: "Item 01",
+      //         priority: "high",
+      //       },
+      //       {
+      //         title: "Item 02",
+      //         priority: "low",
+      //       },
+      //       {
+      //         title: "Item 03",
+      //         priority: "medium",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     title: "Test board 2",
+      //     color: "blue",
+      //     items: [
+      //       {
+      //         title: "Item 01",
+      //         priority: "high",
+      //       },
+      //       {
+      //         title: "Item 02",
+      //         priority: "low",
+      //       },
+      //       {
+      //         title: "Item 03",
+      //         priority: "medium",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     title: "Test board 3",
+      //     color: "green",
+      //     items: [],
+      //   },
+      // ],
     };
+  },
+  watch: {
+    boards() {
+      localStorage.setItem("boards", JSON.stringify(this.boards));
+    },
   },
 };
 </script>
