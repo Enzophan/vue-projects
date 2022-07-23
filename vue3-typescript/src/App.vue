@@ -3,6 +3,7 @@
   <div class="container">
     <Nav />
     <router-view />
+    <h2>{{ welcomeMsg }}</h2>
   </div>
   <!-- <div v-if="!spin">
     <img alt="Vue logo" src="./assets/logo.png" />
@@ -19,6 +20,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+
 import Nav from "@/components/Nav.vue";
 import Login from "@/components/LoginForm.vue";
 import Counter from "@/components/Counter.vue";
@@ -48,21 +50,21 @@ export default class App extends Vue {
   }
 
   get welcomeMsg(): string {
-    return `Welcome, ${userStore.state.name}`;
+    return `Welcome, ${userStore.state.name ? userStore.state.name : "guest"}`;
   }
 
-  mounted(): void {
-    if (localStorage.getItem("user")) {
-      userStore.getUser();
-    }
-    // setTimeout(() => {
-    //   this.spin = false;
-    // }, 300);
-  }
+  // mounted(): void {
+  // if (localStorage.getItem("user")) {
+  //   userStore.getUser();
+  // }
+  // setTimeout(() => {
+  //   this.spin = false;
+  // }, 300);
+  // }
 
-  logout(): void {
-    userStore.logout();
-  }
+  // logout(): void {
+  //   userStore.logout();
+  // }
 }
 </script>
 

@@ -18,7 +18,7 @@ export default defineComponent({
     LoginForm,
   },
   created() {
-    console.log("userStore.getters.isLoggedIn ", userStore.getters.isLoggedIn);
+    console.log("Login Page ", userStore.getters.isLoggedIn);
     if (userStore.getters.isLoggedIn) {
       //   this.$router.push("/");
       this.submitted();

@@ -1,5 +1,5 @@
 import axios from "axios";
-import authHeader from "./auth-header";
+// import authHeader from "./auth-header";
 
 export type User = { user: { _id: string, name: string; email: string }, token: string, refreshToken: string }
 export type UserList = Array<User>
@@ -22,7 +22,12 @@ export async function login(email: string, password: string): Promise<User> {
 }
 
 export async function getUser(): Promise<User> {
-    await authHeader();
+    // await authHeader();
     const { data } = await axios.get('/v1/auth/me');
     return data
+}
+
+export async function logOut(): Promise<void> {
+    axios.defaults.headers.common['Authorization'] = ''
+    localStorage.removeItem('user');
 }

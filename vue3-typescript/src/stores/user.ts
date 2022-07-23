@@ -9,6 +9,7 @@ interface User {
 
 
 const state = reactive({
+    _id: '',
     name: '',
     email: '',
     error: '',
@@ -24,6 +25,7 @@ const actions = {
         if (data == null) return {}
         if (data.user) {
             const user = data.user;
+            state._id = user._id;
             state.name = user.name;
             state.email = user.email;
             return data.user
@@ -45,6 +47,7 @@ const actions = {
         return true
     },
     async logout() {
+        await Request.logOut();
         state.name = '';
         state.email = '';
     }

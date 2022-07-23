@@ -39,7 +39,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" @click.prevent="logOut">
+        <a class="nav-link" @click.prevent="logOut" href="/">
           <font-awesome-icon icon="sign-out-alt" /> LogOut
         </a>
       </li>
@@ -50,21 +50,39 @@
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from "vue";
 import userStore from "@/stores/user";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "Nav",
   setup() {
-    const { state, getters, getUser } = userStore;
+    const { state, getters, getUser, logout } = userStore;
+    const router = useRouter();
     const message = ref("");
     const currentUser: Ref<string | undefined> = ref("");
+
     onMounted(async () => {
-      getUser().then((data) => {
+      getUserData();
+    });
+    const getUserData = async () => {
+      await getUser().then((data) => {
+        if (!data) router.push("/login");
         console.log("getUser ", data);
         message.value = `Hi, ${data.name}`;
         currentUser.value = data.email;
       });
-    });
-    return { state, getters, getUser, message, currentUser };
+    };
+
+    const logOut = (event: Event) => {
+      if (event) {
+        event.preventDefault();
+      }
+      logout();
+      currentUser.value = undefined;
+      console.log("logOut");
+      router.push("/login");
+      // console.log((event.target as HTMLInputElement).value)
+    };
+    return { state, getters, getUser, message, currentUser, logOut };
   },
 });
 </script>

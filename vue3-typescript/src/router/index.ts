@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
+import Profile from "@/views/Profile.vue";
 // import Register from "./components/Register.vue";
 // lazy-loaded
 // const Profile = () => import("./components/Profile.vue")
@@ -25,12 +26,12 @@ const routes: Array<RouteRecordRaw> = [
     //     path: "/register",
     //     component: Register,
     // },
-    // {
-    //     path: "/profile",
-    //     name: "profile",
-    //     // lazy-loaded
-    //     component: Profile,
-    // },
+    {
+        path: "/profile",
+        name: "profile",
+        // lazy-loaded
+        component: Profile,
+    },
     // {
     //     path: "/admin",
     //     name: "admin",
