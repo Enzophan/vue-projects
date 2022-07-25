@@ -5,17 +5,6 @@
     <router-view />
     <h2>{{ welcomeMsg }}</h2>
   </div>
-  <!-- <div v-if="!spin">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <div v-if="!logged" class="d-grid gap-2 col-6 mx-auto">
-      <Login :msg="'Login Page'" />
-    </div>
-    <div v-else class="text-center">
-      <h2>{{ welcomeMsg }}</h2>
-      <Counter />
-      <button class="btn btn-secondary" @click="logout">Logout</button>
-    </div>
-  </div> -->
 </template>
 
 <script lang="ts">

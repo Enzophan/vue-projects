@@ -48,13 +48,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from "vue";
+import {
+  defineComponent,
+  InjectionKey,
+  onMounted,
+  provide,
+  reactive,
+  Ref,
+  ref,
+  watch,
+} from "vue";
 import userStore from "@/stores/user";
 import { useRouter } from "vue-router";
+interface Settings {
+  theme: string;
+}
+const SettingsKey: InjectionKey<Settings> = Symbol("settings");
 
 export default defineComponent({
   name: "Nav",
   setup() {
+    const settings = reactive({
+      theme: "light",
+    });
+    provide(SettingsKey, settings);
+    watch(settings, (settings) => {
+      console.log(`Provider: theme has been changed to ${settings.theme}`);
+    });
+
     const { state, getters, getUser, logout } = userStore;
     const router = useRouter();
     const message = ref("");
