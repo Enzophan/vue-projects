@@ -1,10 +1,13 @@
 <template>
-  <Spinner :start="spin.val" />
-  <div class="container">
-    <Nav />
-    <router-view />
-    <h2>{{ welcomeMsg }}</h2>
-  </div>
+  <SettingsProvider>
+    <Spinner :start="spin.val" />
+    <div class="container">
+      <Nav />
+      <router-view />
+      <h2>{{ welcomeMsg }}</h2>
+    </div>
+    <ThemeButton />
+  </SettingsProvider>
 </template>
 
 <script lang="ts">
@@ -14,6 +17,9 @@ import Nav from "@/components/Nav.vue";
 import Login from "@/components/LoginForm.vue";
 import Counter from "@/components/Counter.vue";
 import Spinner from "@/components/Spinner.vue";
+import SettingsProvider from "@/components/SettingsProvider.vue";
+import ThemeButton from "@/components/ThemeButton.vue";
+
 import userStore from "@/stores/user";
 
 @Options({
@@ -22,6 +28,8 @@ import userStore from "@/stores/user";
     Login,
     Counter,
     Spinner,
+    SettingsProvider,
+    ThemeButton,
   },
   provide() {
     return {

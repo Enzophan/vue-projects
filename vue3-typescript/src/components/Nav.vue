@@ -44,38 +44,22 @@
         </a>
       </li>
     </div>
+    <ThemeButton />
   </nav>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  InjectionKey,
-  onMounted,
-  provide,
-  reactive,
-  Ref,
-  ref,
-  watch,
-} from "vue";
+import { defineComponent, onMounted, Ref, ref } from "vue";
+import ThemeButton from "@/components/ThemeButton.vue";
 import userStore from "@/stores/user";
 import { useRouter } from "vue-router";
-interface Settings {
-  theme: string;
-}
-const SettingsKey: InjectionKey<Settings> = Symbol("settings");
 
 export default defineComponent({
   name: "Nav",
+  components: {
+    ThemeButton,
+  },
   setup() {
-    const settings = reactive({
-      theme: "light",
-    });
-    provide(SettingsKey, settings);
-    watch(settings, (settings) => {
-      console.log(`Provider: theme has been changed to ${settings.theme}`);
-    });
-
     const { state, getters, getUser, logout } = userStore;
     const router = useRouter();
     const message = ref("");
