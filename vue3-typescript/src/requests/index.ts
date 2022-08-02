@@ -31,3 +31,17 @@ export async function logOut(): Promise<void> {
     axios.defaults.headers.common['Authorization'] = ''
     localStorage.removeItem('user');
 }
+
+export async function register(name: string, email: string, password: string): Promise<User> {
+    const requestBody = {
+        name,
+        email,
+        password
+    }
+    const { data } = await axios.post('/v1/auth/register', requestBody, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return data
+}

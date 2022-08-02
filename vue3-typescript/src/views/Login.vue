@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import userStore from "@/stores/user";
 import LoginForm from "@/components/LoginForm.vue";
@@ -17,20 +17,30 @@ export default defineComponent({
   components: {
     LoginForm,
   },
-  created() {
-    console.log("Login Page ", userStore.getters.isLoggedIn);
-    if (userStore.getters.isLoggedIn) {
-      //   this.$router.push("/");
-      this.submitted();
-    }
-  },
+  // created() {
+  //   console.log("Login Page ", userStore.getters.isLoggedIn);
+  //   if (userStore.getters.isLoggedIn) {
+  //     //   this.$router.push("/");
+  //     this.submitted();
+  //   }
+  // },
   setup() {
-    const rounter = useRouter();
+    const router = useRouter();
+    console.log("userStore.state.email ", userStore.state.email)
+    const loggedIn = computed(() => (userStore.state.email ? true : false));
+    onMounted(() => {
+      console.log("Login Page ", loggedIn.value);
+      if (loggedIn.value) {
+        // router.push("/");
+        submitted();
+      }
+    });
     const submitted = () => {
       console.log("submitted");
-      rounter.push("/");
+      // router.push("/");
+      window.location.replace("/");
     };
-    return { submitted };
+    return { router, submitted };
   },
 });
 </script>

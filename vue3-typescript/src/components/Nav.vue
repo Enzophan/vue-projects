@@ -7,6 +7,11 @@
           <font-awesome-icon icon="home" /> Home
         </router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/pocker" class="nav-link">
+          <font-awesome-icon icon="play" /> Pocker
+        </router-link>
+      </li>
       <!-- <li v-if="showAdminBoard" class="nav-item">
         <router-link to="/admin" class="nav-link">Admin Board</router-link>
       </li>
@@ -20,11 +25,11 @@
       </li> -->
     </div>
     <div v-if="!currentUser" class="navbar-nav ml-auto">
-      <!-- <li class="nav-item">
+      <li class="nav-item">
         <router-link to="/register" class="nav-link">
           <font-awesome-icon icon="user-plus" /> Sign Up
         </router-link>
-      </li> -->
+      </li>
       <li class="nav-item">
         <router-link to="/login" class="nav-link">
           <font-awesome-icon icon="sign-in-alt" /> Login

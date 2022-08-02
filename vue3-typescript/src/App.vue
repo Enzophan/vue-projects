@@ -6,7 +6,7 @@
       <router-view />
       <h2>{{ welcomeMsg }}</h2>
     </div>
-    <ThemeButton />
+    <!-- <ThemeButton /> -->
   </SettingsProvider>
 </template>
 

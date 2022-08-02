@@ -27,7 +27,7 @@
       <button class="btn btn-success btn-block my-2" type="submit">
         Login
       </button>
-      <button class="btn btn-success" @click="handleChange">Register</button>
+      <!-- <button class="btn btn-success" @click="handleChange">Register</button> -->
     </form>
   </div>
 </template>

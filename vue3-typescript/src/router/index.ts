@@ -2,7 +2,6 @@ import { createWebHistory, createRouter, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import Profile from "@/views/Profile.vue";
-// import Register from "./components/Register.vue";
 // lazy-loaded
 // const Profile = () => import("./components/Profile.vue")
 // const BoardAdmin = () => import("./components/BoardAdmin.vue")
@@ -20,17 +19,24 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: "/login",
+        name: "Login",
         component: Login,
     },
-    // {
-    //     path: "/register",
-    //     component: Register,
-    // },
+    {
+        path: "/register",
+        name: "Register",
+        component: () => import("@/views/Register.vue"),
+    },
     {
         path: "/profile",
         name: "profile",
         // lazy-loaded
         component: Profile,
+    },
+    {
+        path: "/pocker",
+        name: "Pocker",
+        component: () => import('@/views/PockerRoom.vue')
     },
     // {
     //     path: "/admin",
@@ -59,7 +65,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/login', '/'];
+    const publicPages = ['/login', '/', '/register'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
     // trying to access a restricted page + not logged in

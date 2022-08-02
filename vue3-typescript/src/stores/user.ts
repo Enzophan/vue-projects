@@ -50,8 +50,18 @@ const actions = {
         await Request.logOut();
         state.name = '';
         state.email = '';
-    }
-
+    },
+    async register(name: string, email: string, password: string): Promise<boolean> {
+        const data = await Request.register(name, email, password)
+        if (data == null) {
+            state.error = 'Could not find user.'
+            return false
+        }
+        if (data.user) {
+            return true
+        }
+        return false
+    },
 }
 
 export default { state, getters, ...actions }

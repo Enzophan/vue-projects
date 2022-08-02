@@ -17,7 +17,6 @@ import { computed, defineComponent, inject } from "vue";
 export default defineComponent({
   setup() {
     const settings = inject("settings", { theme: "light" });
-    console.log("settings1 ", settings);
     const oppsiteTheme = computed(() =>
       settings.theme === "dark" ? "light" : "dark"
     );

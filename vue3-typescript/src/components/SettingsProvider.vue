@@ -5,7 +5,7 @@
 
 <script lang="ts">
 // https://logaretm.com/blog/type-safe-provide-inject/
-
+// https://www.youtube.com/watch?v=dOxjzgZpTfk
 import { defineComponent, provide, reactive, watch } from "vue";
 
 interface Settings {
