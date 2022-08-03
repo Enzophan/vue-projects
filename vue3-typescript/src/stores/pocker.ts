@@ -21,7 +21,6 @@ const actions = {
     },
     async getRooms(): Promise<void> {
         const data = await getRooms()
-        console.log("data ", data)
         if (data.rooms) {
             state.rooms = data.rooms;
         }

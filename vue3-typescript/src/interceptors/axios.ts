@@ -39,6 +39,7 @@ axios.interceptors.response.use(resp => resp, async error => {
                 localStorage.setItem('user', JSON.stringify(newUserToken));
                 return axios(originalRequest)
             } else if (data.error) {
+                localStorage.removeItem('user');
                 return data.error
             }
         }
