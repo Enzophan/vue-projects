@@ -22,7 +22,11 @@
       />
     </ul>
   </div>
-  <ModalComponent v-if="openModal" @closeModal="closeModalAddRoom" />
+  <ModalComponent
+    v-if="openModal"
+    @closeModal="closeModalAddRoom"
+    @addRoom="addRoomHandle"
+  />
 </template>
 
 <script lang="ts">
@@ -39,7 +43,7 @@ export default defineComponent({
   setup() {
     const selectedRoom = ref("");
     const openModal = ref(false);
-    const { state, getters, getRooms, setRoom } = roomStore;
+    const { state, getters, getRooms, setRoom, addRoom } = roomStore;
     onMounted(() => {
       getRooms();
     });
@@ -57,6 +61,11 @@ export default defineComponent({
       openModal.value = !openModal.value;
     };
 
+    const addRoomHandle = (roomName: string) => {
+      addRoom(roomName);
+      openModal.value = !openModal.value;
+    };
+
     return {
       selectedRoom,
       openModal,
@@ -65,6 +74,7 @@ export default defineComponent({
       selectRoom,
       openModalAddRoom,
       closeModalAddRoom,
+      addRoomHandle,
     };
   },
 });

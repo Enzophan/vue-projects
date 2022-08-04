@@ -1,5 +1,5 @@
 import { computed, reactive } from "vue";
-import { Room, getRooms } from '@/requests/pocker.api'
+import { Room, getRooms, addRoom } from '@/requests/pocker.api'
 
 type State = {
     rooms: Array<Room>
@@ -25,6 +25,12 @@ const actions = {
             state.rooms = data.rooms;
         }
     },
+    async addRoom(roomName: string): Promise<void> {
+        const data = await addRoom(roomName)
+        if (data.room) {
+            state.rooms = [...state.rooms, data.room]
+        }
+    }
 }
 
 export default { state, getters, ...actions }

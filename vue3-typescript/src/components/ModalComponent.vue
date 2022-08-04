@@ -11,7 +11,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
+          <h5 class="modal-title">Add Room</h5>
           <button
             type="button"
             class="btn-close"
@@ -21,7 +21,21 @@
           ></button>
         </div>
         <div class="modal-body">
-          <p>Modal body text goes here.</p>
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">
+                Room Name:
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="recipient-name"
+                v-model="form.roomName"
+                placeholder="Room Name"
+                required
+              />
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button
@@ -32,7 +46,9 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary" @click="addRoom">
+            Save changes
+          </button>
         </div>
       </div>
     </div>
@@ -40,10 +56,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 
 export default defineComponent({
-  emits: ["closeModal"],
+  emits: ["closeModal", "addRoom"],
   props: {
     openModal: {
       type: Boolean,
@@ -51,11 +67,18 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const form = reactive({
+      roomName: "",
+    });
     const closeModal = (e: Event) => {
       e.preventDefault();
       emit("closeModal");
     };
-    return { closeModal };
+    const addRoom = () => {
+      emit("addRoom", form.roomName);
+      form.roomName = "";
+    };
+    return { form, closeModal, addRoom };
   },
 });
 </script>

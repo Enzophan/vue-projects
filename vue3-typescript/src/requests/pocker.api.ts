@@ -13,7 +13,24 @@ export interface Rooms {
     rooms: Array<Room>
 }
 
+export interface AddRoom {
+    success: boolean,
+    room: Room
+}
+
 export async function getRooms(): Promise<Rooms> {
     const { data } = await axios.get('/v1/rooms');
+    return data
+}
+
+export async function addRoom(roomName: string): Promise<AddRoom> {
+    const requestBody = {
+        roomName
+    }
+    const { data } = await axios.post('/v1/rooms', requestBody, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
     return data
 }
