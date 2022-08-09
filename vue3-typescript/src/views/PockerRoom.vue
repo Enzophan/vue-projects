@@ -1,88 +1,51 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      <ul class="nav nav-pills card-header-pills">
-        <li class="nav-item">
-          <a class="nav-link active" @click="openModalAddRoom">Add Room</a>
-        </li>
-        <li class="nav-item">
-          <h3 class="nav-link">List Rooms</h3>
-        </li>
-      </ul>
+  <div>
+    <h3>roomId {{ roomId }}</h3>
+    <form @submit.prevent="submit" class="form">
+      <input name="name" v-model="name" />
+      <button>Submit</button>
+    </form>
+    <div>
+      <button @click="leave">Leave Room</button>
     </div>
-    <ul
-      class="list-group list-group-flush"
-      v-for="(item, index) in state.rooms"
-      :key="index"
-    >
-      <RoomCard
-        :room="item"
-        @selectRoom="selectRoom"
-        :active="state.selectedRoom === item._id ? true : false"
-      />
-    </ul>
   </div>
-  <ModalComponent
-    v-if="openModal"
-    @closeModal="closeModalAddRoom"
-    @addRoom="addRoomHandle"
-  />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
-import RoomCard from "@/components/RoomsCard.vue";
-import ModalComponent from "@/components/ModalComponent.vue";
-import roomStore from "@/stores/pocker";
+import { defineComponent, computed, ComputedRef, ref } from "vue";
+import { useRoute } from "vue-router";
+import userStore from "@/stores/user";
+import { useSocketIo, useSocketPocker } from "@/service/socket";
 
 export default defineComponent({
-  components: {
-    RoomCard,
-    ModalComponent,
-  },
   setup() {
-    const selectedRoom = ref("");
-    const openModal = ref(false);
-    const { state, getters, getRooms, setRoom, addRoom } = roomStore;
-    onMounted(() => {
-      getRooms();
-    });
+    const socket = useSocketIo("5000");
+    const [joinRoom, leaveRoom] = useSocketPocker(socket);
+    const name = ref("");
+    const { state } = userStore;
 
-    const selectRoom = (roomId: string) => {
-      setRoom(roomId);
+    const router = useRoute();
+    const roomId = computed(() => router.params.id) as ComputedRef<string>;
+
+    const submit = () => {
+      const message = {
+        userId: state._id,
+        name: name.value,
+        roomId: router.params.id,
+      };
+      joinRoom(JSON.stringify(message));
+      name.value = "";
     };
 
-    const openModalAddRoom = (event: Event) => {
-      event.preventDefault();
-      openModal.value = !openModal.value;
+    const leave = () => {
+      const message = {
+        userId: state._id,
+        roomId: router.params.id,
+      };
+      leaveRoom(JSON.stringify(message));
     };
 
-    const closeModalAddRoom = () => {
-      openModal.value = !openModal.value;
-    };
-
-    const addRoomHandle = (roomName: string) => {
-      addRoom(roomName);
-      openModal.value = !openModal.value;
-    };
-
-    return {
-      selectedRoom,
-      openModal,
-      state,
-      getters,
-      selectRoom,
-      openModalAddRoom,
-      closeModalAddRoom,
-      addRoomHandle,
-    };
+    return { roomId, name, submit, leave };
   },
 });
 </script>
-
-<style scoped>
-.active {
-  background-color: aqua;
-  border: none;
-}
-</style>

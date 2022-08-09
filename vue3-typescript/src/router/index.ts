@@ -2,6 +2,7 @@ import { createWebHistory, createRouter, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import Profile from "@/views/Profile.vue";
+import PockerRoom from "@/views/PockerRoom.vue"
 // lazy-loaded
 // const Profile = () => import("./components/Profile.vue")
 // const BoardAdmin = () => import("./components/BoardAdmin.vue")
@@ -36,8 +37,28 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/pocker",
         name: "Pocker",
-        component: () => import('@/views/PockerRoom.vue')
+        component: () => import('@/views/Pocker.vue')
     },
+    {
+        path: '/pocker/:id',
+        name: 'PockerRoom',
+        component: PockerRoom,
+        beforeEnter: (to, _, next) => {
+          const { id } = to.params
+          if (Array.isArray(id)) {
+            next({ path: '/error' })
+            return
+          }
+    
+        //   const index = parseInt(id)
+        //   if (index < 0 || index >= facts.length) {
+        //     next({ path: '/error' })
+        //     return
+        //   }
+    
+          next()
+        }
+      },
     // {
     //     path: "/admin",
     //     name: "admin",
@@ -56,6 +77,11 @@ const routes: Array<RouteRecordRaw> = [
     //     // lazy-loaded
     //     component: BoardUser,
     // },
+    {
+        path: '/:catchAll(.*)',
+        name: 'PageNotFound',
+        component: () => import('@/views/PageNotFound.vue')
+    }
 ];
 
 

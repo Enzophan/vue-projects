@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-
 import Nav from "@/components/Nav.vue";
 import Login from "@/components/LoginForm.vue";
 import Counter from "@/components/Counter.vue";
