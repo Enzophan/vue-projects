@@ -1,11 +1,18 @@
 import axios from "axios";
 
+interface Player {
+    clientId: string,
+    userId: string,
+    name: string
+}
+
 export interface Room {
     _id: string,
     roomName: string,
     adminRoom: string,
-    createdTime: Date,
-    users: Array<string>
+    createdTime?: Date,
+    users?: Array<string>
+    players?: Array<Player>
 }
 
 export interface Rooms {
@@ -20,6 +27,11 @@ export interface AddRoom {
 
 export async function getRooms(): Promise<Rooms> {
     const { data } = await axios.get('/v1/rooms');
+    return data
+}
+
+export async function getRoomsById(roomId: string): Promise<AddRoom> {
+    const { data } = await axios.get(`/v1/rooms/${roomId}`);
     return data
 }
 

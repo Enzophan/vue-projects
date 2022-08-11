@@ -1,6 +1,6 @@
 <template>
   <slot />
-  <span> {{ settings }} </span>
+  <!-- <span> {{ settings }} </span> -->
 </template>
 
 <script lang="ts">
