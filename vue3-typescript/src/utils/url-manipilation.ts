@@ -7,3 +7,9 @@ export function currentUrlWithPortNumber(port: string) {
     console.log(`${fullAddressArray[0]}://${fullAddressName.join(".")}`)
     return `${fullAddressArray[0]}://${fullAddressName.join(".")}`;
 }
+
+
+export function zeroPadded(num: number) {
+    // 4 --> 04
+    return num < 10 ? `0${num}` : num;
+}

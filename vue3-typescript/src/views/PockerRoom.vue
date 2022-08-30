@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- <h3>roomId {{ roomId }}</h3> -->
     <h3>{{ getters.roomName }}</h3>
+    <CurrentDateTime />
     <div v-if="!joined">
       <form @submit.prevent="submit" class="form">
         <input name="name" v-model="name" />
@@ -9,11 +9,23 @@
       </form>
     </div>
     <div v-if="joined">
-      <button @click="leave">Leave Room</button>
       <div class="text-center">
+        <div v-if="playing">
+          <p>Now you see me</p>
+          <CountDownTime :seconds="seconds" />
+          <button type="button" class="btn btn-warning" @click="startSession">
+            Finish post!
+          </button>
+        </div>
+        <div v-else>
+          <p>Now you don't</p>
+          <button type="button" class="btn btn-success" @click="startSession">
+            Start posting
+          </button>
+        </div>
         <div class="row">
           <div class="col-2">
-            <ul class="list-group list-player">
+            <ul class="list-group list-player" v-if="state?.roomInfo?.players">
               <li
                 class="list-group-item"
                 v-for="(player, index) in state.roomInfo.players"
@@ -22,25 +34,24 @@
                 <div class="align-self-center">{{ player.name }}</div>
               </li>
             </ul>
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger" @click="leave">
+                Leave Room
+              </button>
+            </div>
           </div>
           <div class="col-10">
             <div class="row">
               <div
                 class="card"
-                style="width: 18rem"
                 v-for="(card, index) in state.pockerCards"
                 :key="index"
               >
-                <div class="card-body">
-                  <h5 class="card-title">{{ card }}</h5>
-                  <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a> -->
-                </div>
+                <PockerCard
+                  :cardValue="playing === true ? card : 'Here we go'"
+                  :active="selectedCard === card ? true : false"
+                  @selectCard="selectCard"
+                />
               </div>
             </div>
           </div>
@@ -55,6 +66,9 @@ import { defineComponent, computed, ComputedRef, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import userStore from "@/stores/user";
 import roomStore from "@/stores/pocker";
+import PockerCard from "@/components/PockerCard.vue";
+import CurrentDateTime from "@/components/CurrentDateTime.vue";
+import CountDownTime from "@/components/CountDownTime.vue";
 
 import {
   useSocketIo,
@@ -63,6 +77,11 @@ import {
 } from "@/service/socket";
 
 export default defineComponent({
+  components: {
+    PockerCard,
+    CountDownTime,
+    CurrentDateTime,
+  },
   setup() {
     const socket = useSocketIo("5000");
     const [joinRoom, leaveRoom] = useSocketPocker(socket);
@@ -70,6 +89,10 @@ export default defineComponent({
     useSockertListening(socket);
     const name = ref("");
     const joined = ref(false);
+    const selectedCard = ref("");
+    const playing = ref(false);
+    const seconds = ref(30);
+
     // const { state } = userStore;
     const { state, getters, getRoomsById } = roomStore;
 
@@ -102,13 +125,37 @@ export default defineComponent({
       joined.value = false;
     };
 
-    return { roomId, name, joined, state, getters, submit, leave };
+    const startSession = () => {
+      playing.value = !playing.value;
+      selectedCard.value = "";
+    };
+
+    const selectCard = (cardValue: string) => {
+      selectedCard.value = cardValue;
+      console.log("Emit: ", cardValue);
+    };
+
+    return {
+      roomId,
+      name,
+      joined,
+      selectedCard,
+      playing,
+      seconds,
+      state,
+      getters,
+      submit,
+      leave,
+      selectCard,
+      startSession,
+    };
   },
 });
 </script>
 
 <style scoped>
-.card-title {
-  font-size: 40px;
+.card {
+  width: 18rem;
+  margin: 10px;
 }
 </style>
