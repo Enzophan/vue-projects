@@ -15,13 +15,20 @@ const state: State = reactive({
         _id: "",
         roomName: "",
         adminRoom: "",
+        timeCountDown: {
+            playing: false,
+            endTime: new Date().toISOString()
+        }
     },
     pockerCards: ["0", "1/2", "1", "3", "5", "8", "13", "?"]
 })
 
 const getters = reactive({
     selectedRoom: computed(() => state.selectedRoom),
-    roomName: computed(() => state.roomInfo.roomName)
+    roomName: computed(() => state.roomInfo.roomName),
+    playing: computed(() => state.roomInfo.timeCountDown?.playing),
+    endTime: computed(() => state.roomInfo.timeCountDown?.endTime)
+    // timeLeft: computed(() => Math.round((new Date(state.roomInfo.timeCountDown?.endTime).getTime() - Date.now()) / 1000))
 })
 
 const actions = {
@@ -66,7 +73,23 @@ const actions = {
         if (userId) {
             state.roomInfo.players = state.roomInfo.players?.filter(player => player.userId !== userId)
         }
-    }
+    },
+    setPlaying(playing: boolean, timeLeft: number): void {
+        const calculateEndTime = new Date();
+        calculateEndTime.setMinutes(calculateEndTime.getMinutes() + timeLeft);
+        if (playing) {
+            state.roomInfo.timeCountDown = {
+                playing,
+                endTime: calculateEndTime.toISOString()
+            }
+        } else {
+            state.roomInfo.timeCountDown = {
+                playing,
+                endTime: new Date().toISOString()
+            }
+        }
+    },
+
 }
 
 export default { state, getters, ...actions }

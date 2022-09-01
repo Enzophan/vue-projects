@@ -41,6 +41,9 @@ axios.interceptors.response.use(resp => resp, async error => {
             } else if (data.error) {
                 localStorage.removeItem('user');
                 return data.error
+            } else if (!data.token) {
+                localStorage.removeItem('user');
+                return data
             }
         }
     }

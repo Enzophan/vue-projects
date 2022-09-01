@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <!-- <p>{{ currentTime }}</p>
-    <p>{{ endTime }}</p> -->
-    <p>{{ displayTimeLeft }}</p>
+  <div class="badge bg-primary text-wrap">
+    <p class="count-time">{{ displayTimeLeft }}</p>
   </div>
 </template>
 
@@ -12,25 +10,40 @@ import { zeroPadded } from "@/utils/url-manipilation";
 
 export default defineComponent({
   props: {
-    seconds: {
-      type: Number,
-      default: 0,
+    getEndTime: {
+      type: String,
       required: true,
     },
   },
   setup(props) {
-    const secondsLeft = ref(props.seconds);
+    const secondsLeft = ref(0);
     const currentTime = ref(Date.now());
-    const endTime = currentTime.value + secondsLeft.value * 1000;
-
+    // const endTime =  currentTime.value + secondsLeft.value * 1000;
+    const endTime = Date.parse(props.getEndTime);
     const displayTimeLeft = computed(() => {
-      const minutes = Math.floor((secondsLeft.value % 3600) / 60);
-      const seconds = secondsLeft.value % 60;
-      return `${zeroPadded(minutes)} : ${zeroPadded(seconds)}`;
+      // const minutes = Math.floor((secondsLeft.value % 3600) / 60);
+      // const seconds = secondsLeft.value % 60;
+
+      const seconds = Math.floor((secondsLeft.value / 1000) % 60);
+      const minutes = Math.floor((secondsLeft.value / 1000 / 60) % 60);
+      const hours = Math.floor((secondsLeft.value / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(secondsLeft.value / (1000 * 60 * 60 * 24));
+      if (days > 0) {
+        return `${zeroPadded(days)} day(s) : ${zeroPadded(
+          hours
+        )} hour(s) | ${zeroPadded(minutes)} : ${zeroPadded(seconds)}`;
+      } else if (hours > 0) {
+        return `${zeroPadded(hours)} hour(s) | ${zeroPadded(
+          minutes
+        )} : ${zeroPadded(seconds)}`;
+      } else {
+        return `${zeroPadded(minutes)} : ${zeroPadded(seconds)}`;
+      }
     });
 
     const countDown = setInterval(() => {
-      secondsLeft.value = Math.round((endTime - Date.now()) / 1000);
+      // secondsLeft.value = Math.round((endTime - Date.now()) / 1000);
+      secondsLeft.value = endTime - Date.now();
       if (secondsLeft.value <= 0) {
         clearInterval(countDown);
         return;
@@ -49,3 +62,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.count-time {
+  margin: auto;
+  padding: 10px;
+}
+</style>

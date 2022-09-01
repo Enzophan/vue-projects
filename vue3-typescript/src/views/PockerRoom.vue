@@ -1,8 +1,8 @@
 <template>
   <div>
     <h3>{{ getters.roomName }}</h3>
-    <CurrentDateTime />
     <div v-if="!joined">
+      <CurrentDateTime />
       <form @submit.prevent="submit" class="form">
         <input name="name" v-model="name" />
         <button>Submit</button>
@@ -10,18 +10,39 @@
     </div>
     <div v-if="joined">
       <div class="text-center">
-        <div v-if="playing">
-          <p>Now you see me</p>
-          <CountDownTime :seconds="seconds" />
-          <button type="button" class="btn btn-warning" @click="startSession">
-            Finish post!
-          </button>
+        <div v-if="getters.playing" class="d-flex justify-content-center">
+          <div class="p-2">
+            <CountDownTime
+              :getEndTime="getters.endTime ? getters.endTime : ''"
+            />
+          </div>
+          <div class="p-2">
+            <button
+              type="button"
+              class="btn btn-warning"
+              @click="startSession(false)"
+            >
+              Finish post!
+            </button>
+          </div>
         </div>
         <div v-else>
-          <p>Now you don't</p>
-          <button type="button" class="btn btn-success" @click="startSession">
-            Start posting
-          </button>
+          <div class="input-group input-group-sm mb-3">
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Set Countdown Time"
+              v-model="seconds"
+            />
+            <span class="input-group-text">Minute(s)</span>
+            <button
+              type="button"
+              class="btn btn-success"
+              @click="startSession(true)"
+            >
+              Start posting
+            </button>
+          </div>
         </div>
         <div class="row">
           <div class="col-2">
@@ -48,7 +69,7 @@
                 :key="index"
               >
                 <PockerCard
-                  :cardValue="playing === true ? card : 'Here we go'"
+                  :cardValue="getters.playing === true ? card : 'Here we go'"
                   :active="selectedCard === card ? true : false"
                   @selectCard="selectCard"
                 />
@@ -87,14 +108,6 @@ export default defineComponent({
     const [joinRoom, leaveRoom] = useSocketPocker(socket);
     // const [otherUserId, otherName, otherClientId] = useSockertListening(socket);
     useSockertListening(socket);
-    const name = ref("");
-    const joined = ref(false);
-    const selectedCard = ref("");
-    const playing = ref(false);
-    const seconds = ref(30);
-
-    // const { state } = userStore;
-    const { state, getters, getRoomsById } = roomStore;
 
     const router = useRoute();
     const roomId = computed(() => router.params.id) as ComputedRef<string>;
@@ -103,6 +116,12 @@ export default defineComponent({
     onMounted(() => {
       getRoomsById(param);
     });
+
+    const { state, getters, getRoomsById, setPlaying } = roomStore;
+    const name = ref("");
+    const joined = ref(false);
+    const selectedCard = ref("");
+    const seconds = ref("30");
 
     const submit = () => {
       const message = {
@@ -125,8 +144,8 @@ export default defineComponent({
       joined.value = false;
     };
 
-    const startSession = () => {
-      playing.value = !playing.value;
+    const startSession = (playing: boolean) => {
+      setPlaying(playing, parseInt(seconds.value));
       selectedCard.value = "";
     };
 
@@ -140,7 +159,6 @@ export default defineComponent({
       name,
       joined,
       selectedCard,
-      playing,
       seconds,
       state,
       getters,

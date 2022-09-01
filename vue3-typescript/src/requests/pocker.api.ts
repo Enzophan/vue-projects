@@ -6,13 +6,19 @@ interface Player {
     name: string
 }
 
+interface TimeCountDown {
+    playing?: boolean,
+    endTime?: string
+}
+
 export interface Room {
     _id: string,
     roomName: string,
     adminRoom: string,
     createdTime?: Date,
-    users?: Array<string>
-    players?: Array<Player>
+    users?: Array<string>,
+    players?: Array<Player>,
+    timeCountDown?: TimeCountDown
 }
 
 export interface Rooms {
