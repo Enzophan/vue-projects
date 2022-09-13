@@ -3,12 +3,28 @@ import axios from "axios";
 interface Player {
     clientId: string,
     userId: string,
-    name: string
+    name: string,
+    voted: boolean,
 }
 
 interface TimeCountDown {
     playing?: boolean,
+    status?: string,
     endTime?: string
+}
+
+interface Result {
+    userId: string,
+    point: string
+}
+
+export interface Session {
+    _id?: string,
+    averagePoint?: string,
+    status?: string,
+    story?: string,
+    roomId?: string,
+    results?: [Result],
 }
 
 export interface Room {
@@ -18,7 +34,8 @@ export interface Room {
     createdTime?: Date,
     users?: Array<string>,
     players?: Array<Player>,
-    timeCountDown?: TimeCountDown
+    timeCountDown?: TimeCountDown,
+    listResult?: Array<Session>
 }
 
 export interface Rooms {
@@ -29,6 +46,19 @@ export interface Rooms {
 export interface AddRoom {
     success: boolean,
     room: Room
+}
+
+export interface RoomSession {
+    success: boolean,
+    room: {
+        _id: string,
+        roomName: string,
+        adminRoom: string,
+        createdTime?: Date,
+        players?: Array<Player>,
+        timeCountDown?: TimeCountDown,
+        result?: Session
+    }
 }
 
 export async function getRooms(): Promise<Rooms> {

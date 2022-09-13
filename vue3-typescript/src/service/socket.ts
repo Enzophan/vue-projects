@@ -21,6 +21,9 @@ export function useSockertListening(socket: Socket) {
         console.log("user leaves", data)
         roomStore.removePlayer(data.player)
     });
+    socket.on("new voting", data => {
+        console.log("new voting", data)
+    });
 }
 
 export function useSocketPocker(socket: Socket) {

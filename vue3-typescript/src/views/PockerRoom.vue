@@ -10,49 +10,99 @@
     </div>
     <div v-if="joined">
       <div class="text-center">
-        <div v-if="getters.playing" class="d-flex justify-content-center">
-          <div class="p-2">
-            <CountDownTime
-              :getEndTime="getters.endTime ? getters.endTime : ''"
-            />
+        <div v-if="getters.roomStatus === 'playing'">
+          <div class="d-flex justify-content-center">
+            <p class="fs-4 text-nowrap">
+              Please vote for {{ getters.activeSession.story }}
+            </p>
           </div>
-          <div class="p-2">
-            <button
-              type="button"
-              class="btn btn-warning"
-              @click="startSession(false)"
-            >
-              Finish post!
-            </button>
+          <div class="d-flex justify-content-center">
+            <div class="p-2">
+              <CountDownTime
+                :getEndTime="getters.endTime ? getters.endTime : ''"
+              />
+            </div>
+            <div class="p-2">
+              <button
+                type="button"
+                class="btn btn-warning"
+                @click="getResult(getters.activeSession._id)"
+              >
+                Get result!
+              </button>
+            </div>
           </div>
         </div>
-        <div v-else>
+        <div v-if="getters.roomStatus === 'pending'">
+          <div class="d-flex justify-content-center">
+            <p class="fs-4 text-nowrap">
+              Please vote for {{ getters.activeSession.story }}
+            </p>
+          </div>
           <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Minute(s)</span>
             <input
               type="text"
               class="form-control"
               aria-label="Set Countdown Time"
               v-model="seconds"
             />
-            <span class="input-group-text">Minute(s)</span>
             <button
               type="button"
               class="btn btn-success"
-              @click="startSession(true)"
+              @click="startSessionHandle()"
+            >
+              Re-start posting
+            </button>
+            <button
+              type="button"
+              class="btn btn-warning"
+              @click="endSessionHandle()"
+            >
+              Finish this post!
+            </button>
+          </div>
+        </div>
+        <div v-if="getters.roomStatus === 'initial'">
+          <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Minute(s)</span>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Set Countdown Time"
+              v-model="seconds"
+            />
+            <span class="input-group-text">Story Summary</span>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Story Summary"
+              v-model="textSummary"
+            />
+            <button
+              type="button"
+              class="btn btn-success"
+              @click="startSessionHandle()"
             >
               Start posting
             </button>
           </div>
         </div>
         <div class="row">
-          <div class="col-2">
+          <div class="col-3">
             <ul class="list-group list-player" v-if="state?.roomInfo?.players">
               <li
                 class="list-group-item"
                 v-for="(player, index) in state.roomInfo.players"
                 :key="index"
               >
-                <div class="align-self-center">{{ player.name }}</div>
+                <!-- <div class="align-self-center">{{ player.name }}<span  class="badge bg-secondary">X</span></div> -->
+                <div class="align-self-center">
+                  {{ player.name }}
+                  <span class="badge text-bg-success" v-if="player.voted">
+                    Voted
+                  </span>
+                </div>
               </li>
             </ul>
             <div class="btn-group">
@@ -61,7 +111,7 @@
               </button>
             </div>
           </div>
-          <div class="col-10">
+          <div class="col-9">
             <div class="row">
               <div
                 class="card"
@@ -72,6 +122,7 @@
                   :cardValue="getters.playing === true ? card : 'Here we go'"
                   :active="selectedCard === card ? true : false"
                   @selectCard="selectCard"
+                  @confirmSelected="confirmSelected"
                 />
               </div>
             </div>
@@ -117,11 +168,20 @@ export default defineComponent({
       getRoomsById(param);
     });
 
-    const { state, getters, getRoomsById, setPlaying } = roomStore;
+    const {
+      state,
+      getters,
+      getRoomsById,
+      startSession,
+      endSession,
+      getResultSession,
+      voting,
+    } = roomStore;
     const name = ref("");
     const joined = ref(false);
     const selectedCard = ref("");
     const seconds = ref("30");
+    const textSummary = ref("");
 
     const submit = () => {
       const message = {
@@ -144,14 +204,30 @@ export default defineComponent({
       joined.value = false;
     };
 
-    const startSession = (playing: boolean) => {
-      setPlaying(playing, parseInt(seconds.value));
+    const startSessionHandle = () => {
+      startSession(parseInt(seconds.value), textSummary.value);
       selectedCard.value = "";
+    };
+
+    const endSessionHandle = () => {
+      endSession();
+      selectedCard.value = "";
+    };
+
+    const getResult = (sessionId: string) => {
+      getResultSession(sessionId);
     };
 
     const selectCard = (cardValue: string) => {
       selectedCard.value = cardValue;
-      console.log("Emit: ", cardValue);
+    };
+
+    const confirmSelected = (cardValue: string) => {
+      const user = {
+        userId: userStore.state._id,
+        point: cardValue,
+      };
+      voting(user);
     };
 
     return {
@@ -160,12 +236,16 @@ export default defineComponent({
       joined,
       selectedCard,
       seconds,
+      textSummary,
       state,
       getters,
       submit,
       leave,
       selectCard,
-      startSession,
+      confirmSelected,
+      startSessionHandle,
+      endSessionHandle,
+      getResult,
     };
   },
 });

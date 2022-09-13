@@ -36,8 +36,10 @@ export default defineComponent({
         return `${zeroPadded(hours)} hour(s) | ${zeroPadded(
           minutes
         )} : ${zeroPadded(seconds)}`;
-      } else {
+      } else if (minutes >= 0) {
         return `${zeroPadded(minutes)} : ${zeroPadded(seconds)}`;
+      } else {
+        return `00 : 00`;
       }
     });
 

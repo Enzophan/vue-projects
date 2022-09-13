@@ -12,7 +12,9 @@
       the card's content.
     </p> -->
       <div v-if="active">
-        <a href="#" class="card-link">Confirm</a>
+        <a href="#" class="card-link" @click="confirmSelectedHandle(cardValue)"
+          >Confirm</a
+        >
       </div>
     </div>
     <!-- <a href="#" class="card-link">Another link</a> -->
@@ -23,7 +25,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  emits: ["selectCard"],
+  emits: ["selectCard", "confirmSelected"],
   props: {
     cardValue: {
       type: String,
@@ -40,7 +42,10 @@ export default defineComponent({
         emit("selectCard", cardValue);
       }
     };
-    return { selectCard };
+    const confirmSelectedHandle = (cardValue: string) => {
+      emit("confirmSelected", cardValue);
+    };
+    return { selectCard, confirmSelectedHandle };
   },
 });
 </script>
