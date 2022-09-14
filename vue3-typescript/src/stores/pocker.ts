@@ -48,15 +48,18 @@ const actions = {
             state.rooms = data.rooms;
         }
     },
-    async getRoomsById(roomId: string): Promise<void> {
+    async getRoomsById(roomId: string): Promise<Room> {
         const data = await getRoomsById(roomId)
-        // console.log("getRoomsById ", data)
         if (data.room) {
             state.roomInfo = data.room;
         }
         if (data.room.listResult) {
-            state.currentSession = data.room.listResult.find(session => session.status === 'active')
+            state.currentSession = data.room.listResult.find(session => session.status === 'active' || session.status === 'pending')
         }
+        return data.room
+    },
+    async getCurrentSession(): Promise<Session> {
+        return state.currentSession ? state.currentSession : {}
     },
     async addRoom(roomName: string): Promise<void> {
         const data = await addRoom(roomName)

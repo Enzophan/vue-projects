@@ -36,7 +36,10 @@
         <div v-if="getters.roomStatus === 'pending'">
           <div class="d-flex justify-content-center">
             <p class="fs-4 text-nowrap">
-              Please vote for {{ getters.activeSession.story }}
+              Average Point of {{ getters.activeSession.story }} is
+              <span style="color: red">{{
+                getters.activeSession.averagePoint
+              }}</span>
             </p>
           </div>
           <div class="input-group input-group-sm mb-3">
@@ -155,6 +158,16 @@ export default defineComponent({
     CurrentDateTime,
   },
   setup() {
+    const {
+      state,
+      getters,
+      getRoomsById,
+      getCurrentSession,
+      startSession,
+      endSession,
+      getResultSession,
+      voting,
+    } = roomStore;
     const socket = useSocketIo("5000");
     const [joinRoom, leaveRoom] = useSocketPocker(socket);
     // const [otherUserId, otherName, otherClientId] = useSockertListening(socket);
@@ -163,25 +176,19 @@ export default defineComponent({
     const router = useRoute();
     const roomId = computed(() => router.params.id) as ComputedRef<string>;
     const param: string = router.params["id"] as string;
-
-    onMounted(() => {
-      getRoomsById(param);
-    });
-
-    const {
-      state,
-      getters,
-      getRoomsById,
-      startSession,
-      endSession,
-      getResultSession,
-      voting,
-    } = roomStore;
     const name = ref("");
     const joined = ref(false);
     const selectedCard = ref("");
     const seconds = ref("30");
     const textSummary = ref("");
+
+    onMounted(async () => {
+      await getRoomsById(param);
+      const currentSession = await getCurrentSession();
+      if (currentSession && currentSession.story) {
+        textSummary.value = currentSession.story;
+      }
+    });
 
     const submit = () => {
       const message = {
