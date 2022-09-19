@@ -1,10 +1,11 @@
 import { computed, reactive } from "vue";
-import * as Request from '@/requests'
+import * as Request from '@/requests';
 
 interface User {
     _id?: string;
     name?: string;
     email?: string;
+    role?: string
 }
 
 
@@ -12,6 +13,7 @@ const state = reactive({
     _id: '',
     name: '',
     email: '',
+    role: '',
     error: '',
 })
 
@@ -21,14 +23,19 @@ const getters = reactive({
 
 const actions = {
     async getUser(): Promise<User> {
-        const data = await Request.getUser()
-        if (data == null) return {}
+        const data = await Request.getUser();
+        if (!data) {
+            const guestUser = await Request.createGuestUser();
+            state._id = guestUser._id;
+            return guestUser
+        }
         if (data.user) {
             const user = data.user;
             state._id = user._id;
             state.name = user.name;
             state.email = user.email;
-            return data.user
+            state.role = user.role;
+            return user
         }
         return {}
     },

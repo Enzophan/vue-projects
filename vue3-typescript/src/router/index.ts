@@ -11,7 +11,7 @@ import PockerRoom from "@/views/PockerRoom.vue"
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        name: "home",
+        name: "Home",
         component: Home,
     },
     {
@@ -44,21 +44,21 @@ const routes: Array<RouteRecordRaw> = [
         name: 'PockerRoom',
         component: PockerRoom,
         beforeEnter: (to, _, next) => {
-          const { id } = to.params
-          if (Array.isArray(id)) {
-            next({ path: '/error' })
-            return
-          }
-    
-        //   const index = parseInt(id)
-        //   if (index < 0 || index >= facts.length) {
-        //     next({ path: '/error' })
-        //     return
-        //   }
-    
-          next()
+            const { id } = to.params
+            if (Array.isArray(id)) {
+                next({ path: '/error' })
+                return
+            }
+
+            //   const index = parseInt(id)
+            //   if (index < 0 || index >= facts.length) {
+            //     next({ path: '/error' })
+            //     return
+            //   }
+
+            next()
         }
-      },
+    },
     // {
     //     path: "/admin",
     //     name: "admin",
@@ -91,8 +91,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/login', '/', '/register'];
-    const authRequired = !publicPages.includes(to.path);
+    // const publicPages = ['/login', '/', '/register', '/pocker'];
+    // const authRequired = !publicPages.includes(to.path);
+
+    const privitePage = ['/profile'];
+    const authRequired = privitePage.includes(to.path);
     const loggedIn = localStorage.getItem('user');
     // trying to access a restricted page + not logged in
     // redirect to login page

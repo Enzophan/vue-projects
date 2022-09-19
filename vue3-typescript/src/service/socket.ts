@@ -12,17 +12,22 @@ export function useSocketIo(port: string): Socket {
     })
 }
 
-export function useSockertListening(socket: Socket) { 
+export function useSockertListening(socket: Socket) {
     socket.on("get users", data => {
         console.log("get users", data)
         roomStore.addPlayer(data.player)
     });
     socket.on("user leaves", data => {
         console.log("user leaves", data)
-        roomStore.removePlayer(data.player)
+        if (data) roomStore.removePlayer(data.player)
     });
     socket.on("new voting", data => {
         console.log("new voting", data)
+        roomStore.voting(data)
+    });
+    socket.on("updatedRoomStartus", data => {
+        console.log("updatedRoomStartus", data)
+        roomStore.getRoomsById(data)
     });
 }
 

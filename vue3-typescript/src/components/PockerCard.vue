@@ -3,6 +3,7 @@
     class="card-body"
     @click="selectCard(cardValue)"
     :class="active ? 'active' : null"
+    v-if="roomStatus === 'playing'"
   >
     <div class="content">
       <h5 class="card-title">{{ cardValue }}</h5>
@@ -19,6 +20,11 @@
     </div>
     <!-- <a href="#" class="card-link">Another link</a> -->
   </div>
+  <div class="card-body" v-else>
+    <div class="content text-center">
+      <img src="@/assets/images/pocker.png" class="rounded" alt="Pocker" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -27,6 +33,10 @@ import { defineComponent } from "vue";
 export default defineComponent({
   emits: ["selectCard", "confirmSelected"],
   props: {
+    roomStatus: {
+      type: String,
+      required: true,
+    },
     cardValue: {
       type: String,
       required: true,
@@ -55,9 +65,12 @@ export default defineComponent({
 .card-body .content {
   position: relative;
   margin: 50px;
-  height: 10vh;
+  height: 20vh;
 }
 .card-title {
   font-size: 40px;
+}
+img.rounded {
+  width: 100%;
 }
 </style>

@@ -1,3 +1,5 @@
+import { uuid } from 'vue-uuid'
+
 export function currentUrlWithPortNumber(port: string) {
     const fullAddressArray = window.location.href.split("://");
     const fullAddressName = window.location.href.split("://")[1].split(".");
@@ -12,4 +14,8 @@ export function currentUrlWithPortNumber(port: string) {
 export function zeroPadded(num: number) {
     // 4 --> 04
     return num < 10 ? `0${num}` : num;
+}
+
+export function generateId() {
+    return uuid.v4().replace(/-/g, "")
 }

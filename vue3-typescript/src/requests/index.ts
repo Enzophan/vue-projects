@@ -1,8 +1,11 @@
 import axios from "axios";
 // import authHeader from "./auth-header";
+import { generateId } from '@/utils/url-manipilation';
 
-export type User = { user: { _id: string, name: string; email: string }, token: string, refreshToken: string }
+export type User = { user: { _id: string, name: string; email: string, role: string }, token: string, refreshToken: string };
 export type UserList = Array<User>
+
+export type GuestUser = { _id: string, name: string };
 
 export async function login(email: string, password: string): Promise<User> {
     const requestBody = {
@@ -44,4 +47,19 @@ export async function register(name: string, email: string, password: string): P
         }
     });
     return data
+}
+
+export async function createGuestUser(): Promise<GuestUser> {
+    const guestInfo = JSON.parse(localStorage.getItem('guestInfo') || '{}');
+    console.log("guestInfo ", guestInfo)
+    if (guestInfo && guestInfo._id) {
+        return guestInfo
+    } else {
+        const data = {
+            _id: generateId(),
+            name: ""
+        }
+        localStorage.setItem('guestInfo', JSON.stringify(data));
+        return data
+    }
 }

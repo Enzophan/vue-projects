@@ -5,6 +5,7 @@ interface Player {
     userId: string,
     name: string,
     voted: boolean,
+    point: string
 }
 
 interface TimeCountDown {

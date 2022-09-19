@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <ul class="nav nav-pills card-header-pills">
-        <li class="nav-item">
+        <li class="nav-item" v-if="!isGuest">
           <a class="nav-link active" @click="openModalAddRoom">Add Room</a>
         </li>
         <li class="nav-item">
@@ -34,6 +34,7 @@ import { defineComponent, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import RoomCard from "@/components/RoomsCard.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
+import userStore from "@/stores/user";
 import roomStore from "@/stores/pocker";
 
 export default defineComponent({
@@ -45,14 +46,17 @@ export default defineComponent({
     const router = useRouter();
     const selectedRoom = ref("");
     const openModal = ref(false);
+    const isGuest = ref(true);
     const { state, getters, getRooms, setRoom, addRoom } = roomStore;
     onMounted(() => {
       getRooms();
+      if (userStore.state.email && userStore.state.role) isGuest.value = false;
     });
 
     const selectRoom = (roomId: string) => {
       setRoom(roomId);
       router.push(`/pocker/${roomId}`);
+      // router.push({ name: "pocker", params: { id: roomId } });
     };
 
     const openModalAddRoom = (event: Event) => {
@@ -72,6 +76,7 @@ export default defineComponent({
     return {
       selectedRoom,
       openModal,
+      isGuest,
       state,
       getters,
       selectRoom,

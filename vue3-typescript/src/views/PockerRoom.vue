@@ -99,13 +99,7 @@
                 v-for="(player, index) in state.roomInfo.players"
                 :key="index"
               >
-                <!-- <div class="align-self-center">{{ player.name }}<span  class="badge bg-secondary">X</span></div> -->
-                <div class="align-self-center">
-                  {{ player.name }}
-                  <span class="badge text-bg-success" v-if="player.voted">
-                    Voted
-                  </span>
-                </div>
+                <Player :player="player" :roomStatus="getters.roomStatus" />
               </li>
             </ul>
             <div class="btn-group">
@@ -122,7 +116,8 @@
                 :key="index"
               >
                 <PockerCard
-                  :cardValue="getters.playing === true ? card : 'Here we go'"
+                  :roomStatus="getters.roomStatus"
+                  :cardValue="card"
                   :active="selectedCard === card ? true : false"
                   @selectCard="selectCard"
                   @confirmSelected="confirmSelected"
@@ -142,6 +137,7 @@ import { useRoute } from "vue-router";
 import userStore from "@/stores/user";
 import roomStore from "@/stores/pocker";
 import PockerCard from "@/components/PockerCard.vue";
+import Player from "@/components/Player.vue";
 import CurrentDateTime from "@/components/CurrentDateTime.vue";
 import CountDownTime from "@/components/CountDownTime.vue";
 
@@ -154,6 +150,7 @@ import {
 export default defineComponent({
   components: {
     PockerCard,
+    Player,
     CountDownTime,
     CurrentDateTime,
   },
@@ -179,7 +176,7 @@ export default defineComponent({
     const name = ref("");
     const joined = ref(false);
     const selectedCard = ref("");
-    const seconds = ref("30");
+    const seconds = ref("10");
     const textSummary = ref("");
 
     onMounted(async () => {
@@ -223,6 +220,7 @@ export default defineComponent({
 
     const getResult = (sessionId: string) => {
       getResultSession(sessionId);
+      selectedCard.value = "";
     };
 
     const selectCard = (cardValue: string) => {

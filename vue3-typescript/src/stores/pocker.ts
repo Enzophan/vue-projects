@@ -54,7 +54,18 @@ const actions = {
             state.roomInfo = data.room;
         }
         if (data.room.listResult) {
-            state.currentSession = data.room.listResult.find(session => session.status === 'active' || session.status === 'pending')
+            const currentSession = data.room.listResult.find(session => session.status === 'active' || session.status === 'pending');
+            if (currentSession) {
+                currentSession.results?.forEach(user => {
+                    state.roomInfo.players?.map(player => {
+                        if (player.userId === user.userId) {
+                            player.voted = true;
+                            player.point = user.point;
+                        }
+                    })
+                })
+            }
+            state.currentSession = currentSession;
         }
         return data.room
     },
@@ -78,7 +89,7 @@ const actions = {
                     }
                 })
             } else {
-                state.roomInfo.players?.push({ name, clientId, userId, voted: false })
+                state.roomInfo.players?.push({ name, clientId, userId, voted: false, point: "" })
             }
         }
     },
@@ -102,6 +113,10 @@ const actions = {
         });
         console.log("startSession ", response)
 
+        // Reset list player
+        state.roomInfo.players = response.room.players
+
+        // Set current session
         state.currentSession = response.room.result;
         const index = state.roomInfo.listResult?.findIndex(session => session._id === response.room.result?._id);
         console.log("index ", index)
@@ -123,6 +138,9 @@ const actions = {
         const response = await endSession({ roomId: state.roomInfo._id, sessionId: state.currentSession?._id });
         console.log("endSession ", response)
 
+        // Reset list player
+        state.roomInfo.players = response.room.players
+
         state.roomInfo.listResult?.map(session => {
             if (session._id === state.currentSession?._id) {
                 state.currentSession = {};
@@ -139,8 +157,21 @@ const actions = {
         const response = await getResultSession({ roomId: state.roomInfo._id, sessionId });
         console.log("getResultSession ", response)
 
-        state.currentSession = response.room.result;
-
+        const currentSession = response.room.result;
+        if (currentSession) {
+            currentSession.results?.forEach(user => {
+                state.roomInfo.players?.map(player => {
+                    if (player.userId === user.userId) {
+                        player.voted = true;
+                        player.point = user.point;
+                    } else {
+                        player.voted = false;
+                        player.point = '';
+                    }
+                })
+            })
+        }
+        state.currentSession = currentSession;
         state.roomInfo.listResult?.map(session => {
             if (session._id === sessionId) {
                 session.averagePoint = response.room.result?.averagePoint || '0';
