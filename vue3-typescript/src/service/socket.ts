@@ -6,8 +6,9 @@ import roomStore from "@/stores/pocker";
 
 
 export function useSocketIo(port: string): Socket {
+    const connectionSocket = process.env.NODE_ENV === 'production' ? `https://authen-api-1.herokuapp.com` : `http://localhost:${port}`;
     // return openSocket(currentUrlWithPortNumber(port))
-    return openSocket(`http://localhost:${port}`, {
+    return openSocket(connectionSocket, {
         transports: ["websocket"]
     })
 }

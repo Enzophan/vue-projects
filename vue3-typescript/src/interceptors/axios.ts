@@ -1,5 +1,5 @@
 import axios from 'axios';
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? "https://authen-api-1.herokuapp.com/api" : "http://localhost:5000/api";
 
 // refer: https://www.youtube.com/watch?v=Bbx0CyPf4c4&t=127s
 // https://dev.to/franciscomendes10866/how-to-use-axios-interceptors-b7d
