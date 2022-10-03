@@ -1,5 +1,6 @@
 <template>
   <div class="col-md-12">
+    <div class="text-uppercase fs-2 fw-bold">Register</div>
     <div class="register">
       <form @submit.prevent="onSubmit">
         <div class="mb-3 row" :class="{ error: v$.name.$errors.length }">
