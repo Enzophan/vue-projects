@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="login-form">
-      <LoginForm :msg="'Login Page'" @submitted="submitted" />
+      <LoginForm :msg="'Sign In'" @submitted="submitted" />
     </div>
   </div>
 </template>
@@ -26,17 +26,17 @@ export default defineComponent({
   // },
   setup() {
     const router = useRouter();
-    console.log("userStore.state.email ", userStore.state.email)
+    // console.log("userStore.state.email ", userStore.state.email)
     const loggedIn = computed(() => (userStore.state.email ? true : false));
     onMounted(() => {
-      console.log("Login Page ", loggedIn.value);
+      // console.log("Login Page ", loggedIn.value);
       if (loggedIn.value) {
         // router.push("/");
         submitted();
       }
     });
     const submitted = () => {
-      console.log("submitted");
+      // console.log("submitted");
       // router.push("/");
       window.location.replace("/");
     };
@@ -46,4 +46,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.login-form {
+  margin: 1rem;
+}
 </style>

@@ -3,9 +3,29 @@
     <h3>{{ getters.roomName }}</h3>
     <div v-if="!joined">
       <CurrentDateTime />
-      <form @submit.prevent="submit" class="form">
-        <input name="name" v-model="name" />
-        <button>Submit</button>
+      <form class="form">
+        <div class="join-room" :class="{ error: v$.name.$errors.length }">
+          <div class="input-group input-nickname">
+            <span class="input-group-text" id="basic-addon1">Nick Name</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="#Bear"
+              aria-label="Nick name"
+              v-model="name"
+            />
+            <button
+              type="button"
+              class="btn btn-success"
+              @click="checkValidate"
+            >
+              Join Room
+            </button>
+          </div>
+        </div>
+        <div class="input-errors" v-if="v$.name.$error">
+          <div class="error-msg">{{ v$.name.$errors[0].$message }}</div>
+        </div>
       </form>
     </div>
     <div v-if="joined">
@@ -13,7 +33,7 @@
         <div v-if="getters.roomStatus === 'playing'">
           <div class="d-flex justify-content-center">
             <p class="fs-4 text-nowrap">
-              Please vote for {{ getters.activeSession.story }}
+              Please vote for {{ getters.activeSession?.story }}
             </p>
           </div>
           <div class="d-flex justify-content-center">
@@ -22,11 +42,14 @@
                 :getEndTime="getters.endTime ? getters.endTime : ''"
               />
             </div>
-            <div class="p-2">
+            <div
+              class="p-2"
+              v-show="getters.activeSession && getters.activeSession._id"
+            >
               <button
                 type="button"
                 class="btn btn-warning"
-                @click="getResult(getters.activeSession._id)"
+                @click="getResult(getters.activeSession?._id)"
               >
                 Get result!
               </button>
@@ -36,9 +59,9 @@
         <div v-if="getters.roomStatus === 'pending'">
           <div class="d-flex justify-content-center">
             <p class="fs-4 text-nowrap">
-              Average Point of {{ getters.activeSession.story }} is
+              Average Point of {{ getters.activeSession?.story }} is
               <span style="color: red">{{
-                getters.activeSession.averagePoint
+                getters.activeSession?.averagePoint
               }}</span>
             </p>
           </div>
@@ -134,6 +157,9 @@
 <script lang="ts">
 import { defineComponent, computed, ComputedRef, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useVuelidate } from "@vuelidate/core";
+import { required, minLength } from "@vuelidate/validators";
+
 import userStore from "@/stores/user";
 import roomStore from "@/stores/pocker";
 import PockerCard from "@/components/PockerCard.vue";
@@ -153,6 +179,15 @@ export default defineComponent({
     Player,
     CountDownTime,
     CurrentDateTime,
+  },
+  methods: {
+    checkValidate() {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        this.submit();
+        console.log("TEST");
+      }
+    },
   },
   setup() {
     const {
@@ -187,6 +222,12 @@ export default defineComponent({
       }
     });
 
+    // Validation
+    const rules = computed(() => ({
+      name: { required, minLength: minLength(3) },
+    }));
+    const v$ = useVuelidate(rules, { name });
+
     const submit = () => {
       const message = {
         userId: userStore.state._id,
@@ -218,9 +259,11 @@ export default defineComponent({
       selectedCard.value = "";
     };
 
-    const getResult = (sessionId: string) => {
-      getResultSession(sessionId);
-      selectedCard.value = "";
+    const getResult = (sessionId: string | undefined) => {
+      if (sessionId) {
+        getResultSession(sessionId);
+        selectedCard.value = "";
+      }
     };
 
     const selectCard = (cardValue: string) => {
@@ -244,6 +287,7 @@ export default defineComponent({
       textSummary,
       state,
       getters,
+      v$,
       submit,
       leave,
       selectCard,
@@ -257,6 +301,14 @@ export default defineComponent({
 </script>
 
 <style scoped>
+form .join-room {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.input-group.input-nickname {
+  width: 30rem;
+}
 .card {
   width: 18rem;
   margin: 10px;

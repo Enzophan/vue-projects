@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h3>Home Page</h3>
+    <h3>Hot news!!!</h3>
     <!-- <span>{{ mySpinner }}</span>
     <button @click="mySpinner.val = !mySpinner.val">Click Spin</button> -->
   </div>
