@@ -24,4 +24,9 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Learning more:
-$ https://www.youtube.com/watch?v=foZiwDb-YUE
+https://www.youtube.com/watch?v=foZiwDb-YUE
+
+
+## Validation:
+https://www.youtube.com/watch?v=2BR6Vvjw3wQ
+https://vuelidate-next.netlify.app/advanced_usage.html#composition-api
