@@ -19,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/'
     },
     {
+        path: "/hooks",
+        name: 'Hooks',
+        component: () => import("@/views/Hooks.vue"),
+    },
+    {
         path: "/login",
         name: "Login",
         component: Login,

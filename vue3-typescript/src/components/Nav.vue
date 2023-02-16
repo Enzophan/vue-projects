@@ -12,6 +12,11 @@
           <font-awesome-icon icon="play" /> Pocker
         </router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/hooks" class="nav-link">
+          <font-awesome-icon icon="play" /> Hooks
+        </router-link>
+      </li>
       <!-- <li v-if="showAdminBoard" class="nav-item">
         <router-link to="/admin" class="nav-link">Admin Board</router-link>
       </li>
@@ -97,5 +102,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

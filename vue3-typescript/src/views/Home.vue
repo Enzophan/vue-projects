@@ -3,6 +3,7 @@
     <h3>Hot news!!!</h3>
     <span>Mouse position is at: {{ x }}, {{ y }}</span>
     <News msg="Welcome" />
+    <Photos />
     <!-- <span>{{ mySpinner }}</span> -->
     <!-- <button @click="mySpinner.val = !mySpinner.val">Click Spin</button> -->
   </div>
@@ -11,6 +12,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import News from "@/components/News.vue";
+import Photos from "@/components/Photos.vue";
 import { useMouse } from "@/composables/event";
 
 export default defineComponent({
@@ -18,6 +20,7 @@ export default defineComponent({
   inject: ["mySpinner"],
   components: {
     News,
+    Photos,
   },
   setup() {
     const { x, y } = useMouse();
