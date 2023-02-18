@@ -10,7 +10,7 @@ interface Photos {
     thumbnailUrl: string
 }
 
-export type UsablePhotos = Promise<{ photos: Ref<Photos | undefined> }>;
+export type UsablePhotos = Promise<{ photos: Ref<Photos | undefined>, loaded: Ref }>;
 
 export default async function usePhotos(): UsablePhotos {
     const { response: photos, request } = useApi<Photos>("https://jsonplaceholder.typicode.com/photos");
@@ -20,5 +20,5 @@ export default async function usePhotos(): UsablePhotos {
         await request();
         loaded.value = true;
     };
-    return { photos }
+    return { photos, loaded }
 }   

@@ -6,7 +6,7 @@
     <div>
       <div>
         <h3>
-          Test Hook <strong>onBeforeUpdate</strong> & <strong>onUpdated</strong>:
+          Test Hook <strong>onBeforeUpdate</strong> and <strong>onUpdated</strong>:
           {{ counterData.title }}
         </h3>
       </div>

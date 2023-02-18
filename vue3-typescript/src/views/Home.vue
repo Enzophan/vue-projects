@@ -2,8 +2,8 @@
   <div class="home">
     <h3>Hot news!!!</h3>
     <span>Mouse position is at: {{ x }}, {{ y }}</span>
-    <News msg="Welcome" />
-    <Photos />
+    <News msg="Today's news" />
+    <Photos message="Beautiful photos"/>
     <!-- <span>{{ mySpinner }}</span> -->
     <!-- <button @click="mySpinner.val = !mySpinner.val">Click Spin</button> -->
   </div>
