@@ -1,9 +1,12 @@
 <template>
   <div class="home">
-    <h3>Hot news!!!</h3>
+    <h3>Vue TS project of Zinzo!!!</h3>
+    <div>
+      <span>{{ $t("homeMessage") }}</span>
+    </div>
     <span>Mouse position is at: {{ x }}, {{ y }}</span>
     <News msg="Today's news" />
-    <Photos message="Beautiful photos"/>
+    <Photos message="Beautiful photos" />
     <!-- <span>{{ mySpinner }}</span> -->
     <!-- <button @click="mySpinner.val = !mySpinner.val">Click Spin</button> -->
   </div>
