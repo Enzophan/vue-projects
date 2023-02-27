@@ -1,3 +1,6 @@
 {
-    "homeMessage": "Hello"
+    "homeMessage": "Hello",
+    "happyHolidays": "Happy holidays",
+    "christmasIsComing": "{date} is in {time}",
+    "day": "one day | {count} days"
 }

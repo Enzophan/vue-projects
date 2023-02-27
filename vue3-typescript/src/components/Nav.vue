@@ -54,6 +54,7 @@
         </a>
       </li>
     </div>
+    <Language />
     <!-- <ThemeButton /> -->
   </nav>
 </template>
@@ -61,14 +62,16 @@
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from "vue";
 // import ThemeButton from "@/components/ThemeButton.vue";
+import Language from "@/components/Language.vue";
+
 import userStore from "@/stores/user";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "Nav",
-  // components: {
-  //   ThemeButton,
-  // },
+  components: {
+    Language,
+  },
   setup() {
     const { state, getters, getUser, logout } = userStore;
     const router = useRouter();

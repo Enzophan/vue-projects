@@ -1,3 +1,6 @@
 {
-    "homeMessage": "Xin Chào"
+    "homeMessage": "Xin Chào",
+    "happyHolidays": "Mừng giáng sinh",
+    "christmasIsComing": "{date} trong {time}",
+    "day": "một ngày | {count} ngày"
 }

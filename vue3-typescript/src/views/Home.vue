@@ -1,8 +1,9 @@
 <template>
   <div class="home">
     <h3>Vue TS project of Zinzo!!!</h3>
-    <div>
+    <div class="multi-language">
       <span>{{ $t("homeMessage") }}</span>
+      <HelloWorld />
     </div>
     <span>Mouse position is at: {{ x }}, {{ y }}</span>
     <News msg="Today's news" />
@@ -16,6 +17,7 @@
 import { defineComponent } from "vue";
 import News from "@/components/News.vue";
 import Photos from "@/components/Photos.vue";
+import HelloWorld from "@/components/HelloWorld.vue";
 import { useMouse } from "@/composables/event";
 
 export default defineComponent({
@@ -24,6 +26,7 @@ export default defineComponent({
   components: {
     News,
     Photos,
+    HelloWorld,
   },
   setup() {
     const { x, y } = useMouse();
