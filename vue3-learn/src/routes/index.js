@@ -39,6 +39,13 @@ const routes = [
                 path: 'posts',
                 name: 'About.AuthorPosts',
                 component: () => import('../pages/AuthorPosts'),
+                children: [
+                    {
+                        path: ':cid',
+                        name: 'About.AuthorPosts.Post',
+                        component: () => import('../pages/Posts'),
+                    }
+                ]
             }
         ],
     },
