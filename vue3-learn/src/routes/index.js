@@ -8,6 +8,7 @@ const Dashboard = () => import('../pages/Dashboard');
 const routes = [
     {
         path: '/',
+        alias: '/home',
         name: 'Home',
         component: Home,
     },
@@ -27,6 +28,7 @@ const routes = [
         redirect: {
             name: 'About.AuthorProfile'
         },
+        props: true,
         // https://router.vuejs.org/guide/essentials/redirect-and-alias.html
         children: [
             {
@@ -60,7 +62,7 @@ const routes = [
         component: () => import('../pages/Posts')
     },
     {
-        path: "/:catchAll(.*)",
+        path: "/:catchAll(.*)*",
         name: 'NotFound',
         component: () => import('../pages/NotFound')
     }

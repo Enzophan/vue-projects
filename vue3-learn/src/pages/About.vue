@@ -3,6 +3,8 @@
     <h2>About Page</h2>
     <h2>User: {{ $route.params.id }}</h2>
     <span>Query: {{ query }}</span>
+    <br />
+    <span>props: {{ props }}</span>
     <div class="tabs">
       <router-link :to="{ name: 'About.AuthorProfile' }">Go to Profile</router-link>
       |
@@ -13,11 +15,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineProps } from "vue";
 import {
   useRoute,
   // useRouter
 } from "vue-router";
+
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
+});
 
 const query = ref({});
 const route = useRoute();
@@ -25,12 +34,5 @@ const route = useRoute();
 
 onMounted(async () => {
   query.value = { id: route.params.id };
-  // router.push(`/about/${route.params.id}/${tab.value}`)
 });
-
-// const handleTabs = (value) => {
-//     // tab.value = value;
-//     console.log("handleTabs ", value)
-//     router.push(`/about/${route.params.id}/${value}`)
-// };
 </script>

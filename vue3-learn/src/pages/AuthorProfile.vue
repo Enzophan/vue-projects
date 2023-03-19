@@ -18,16 +18,20 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const userInfo = ref({});
 const isLoading = ref(true);
+const router = useRouter();
 
 const route = useRoute();
 onMounted(async () => {
   const data = await fetch(
     `https://jsonplaceholder.typicode.com/users/${route.params.id}`
   );
+  if (data.status === 404) {
+    router.push({ name: "NotFound" });
+  }
   userInfo.value = await data.json();
   isLoading.value = false;
 });
