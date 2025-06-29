@@ -30,7 +30,7 @@ export default defineComponent({
   props: {
     msg: String,
   },
-  methods: {},
+//   methods: {},
   setup() {
     const store = useStore();
     const count = ref(store.state);

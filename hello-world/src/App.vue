@@ -10,7 +10,7 @@
       Hover Change Name
     </button>
   </div>
-  <span>***************************************************************</span>
+  <span>*******************************IF-ELSE********************************</span>
   <div class="conditional-rendering">
     <h2>{{ num }}</h2>
     <h2 v-if="num === 0">The number is zero</h2>
